@@ -71,7 +71,9 @@ public class Monopoly implements Runnable{
 	}
 	
 	private void update() {
-		
+		keyManager.update();
+		if(State.getState() != null) 
+			State.getState().update();
 	}
 
 	private void render() {
@@ -84,6 +86,8 @@ public class Monopoly implements Runnable{
 		
 		g.clearRect(0,0,width,height);
 		
+		if(State.getState() != null)
+			State.getState().render(g);
 		
 		bs.show();
 		g.dispose();
