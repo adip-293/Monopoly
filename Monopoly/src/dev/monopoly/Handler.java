@@ -30,9 +30,5 @@ public class Handler {
 	public Monopoly getGame() {
 		return game;
 	}
-
-	public void setGame(Monopoly game) {
-		this.game = game;
-	}
-
+	
 }

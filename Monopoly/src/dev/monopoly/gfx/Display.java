@@ -1,4 +1,4 @@
-package dev.monopoly.display;
+package dev.monopoly.gfx;
 import java.awt.Canvas;
 import java.awt.Dimension;
 

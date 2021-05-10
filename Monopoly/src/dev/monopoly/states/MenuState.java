@@ -5,6 +5,8 @@ import java.awt.Graphics;
 
 import dev.monopoly.Handler;
 import dev.monopoly.gfx.Assets;
+import dev.monopoly.ui.Button;
+import dev.monopoly.ui.Clickable;
 import dev.monopoly.ui.UIManager;
 
 public class MenuState extends State{
@@ -12,9 +14,15 @@ public class MenuState extends State{
 	private UIManager uiManager;
 	
 	public MenuState(Handler handler) {
-		super(handler);	
+		this.handler=handler;
 		uiManager = new UIManager(handler);
 		
+		uiManager.addObject(new Button(646,585,496,150,handler,Assets.startButtons, new Clickable() {
+			@Override
+			public void onClick() {
+				handler.getMouseManager().setUIManager(null);
+				State.setState(handler.getGame().settingsState);
+			}}));
 	}
 
 	@Override
@@ -34,7 +42,7 @@ public class MenuState extends State{
 		g.setColor(new Color(153,204,255));
 		g.fillRect(1000,10,608,980);
 		
-		g.drawImage(Assets.gameBoard, 10, 10, 980, 980,null);
+		g.drawImage(Assets.startScreen, 0, 00, 1618, 1000,null);
 		
 		uiManager.render(g);
 	}

@@ -10,14 +10,24 @@ public class Assets {
 	public static BufferedImage[] titleDeeds;
 	public static final int deedWidth = 450, deedHeight = 658;
 	
-	public static BufferedImage gameBoard;
+	public static BufferedImage[] startButtons;
+	
+	public static BufferedImage gameBoard, startScreen;
 	
 	public static void init() {
-		SpriteSheet chanceCardsSheet = new SpriteSheet(ImageLoader.loadImage("/ChanceCards.png"));
-		SpriteSheet communityChestCardsSheet = new SpriteSheet(ImageLoader.loadImage("/CommunityChestCards.png"));
-		SpriteSheet titleDeedsSheet = new SpriteSheet(ImageLoader.loadImage("/TitleDeeds.png"));
+		SpriteSheet chanceCardsSheet = new SpriteSheet(Utils.loadImage("/ChanceCards.png"));
+		SpriteSheet communityChestCardsSheet = new SpriteSheet(Utils.loadImage("/CommunityChestCards.png"));
+		SpriteSheet titleDeedsSheet = new SpriteSheet(Utils.loadImage("/TitleDeeds.png"));
+		SpriteSheet startButtonsSheet = new SpriteSheet(Utils.loadImage("/StartButtons.png"));
 		
-		gameBoard =  ImageLoader.loadImage("/GameBoard.png");
+		
+		gameBoard =  Utils.loadImage("/GameBoard.png");
+		
+		startScreen = Utils.loadImage("/StartScreen.png");
+		
+		startButtons = new BufferedImage[2];
+		startButtons[0] = startButtonsSheet.crop(0, 0, 496, 150);
+		startButtons[1] = startButtonsSheet.crop(0, 150, 496, 150);
 		
 		chanceCards= new BufferedImage[18];
 		chanceCards[0] = chanceCardsSheet.crop(0 * chanceWidth,0 * chanceHeight,chanceWidth,chanceHeight);

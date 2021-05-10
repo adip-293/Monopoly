@@ -2,12 +2,13 @@ package dev.monopoly;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
-import dev.monopoly.display.Display;
 import dev.monopoly.gfx.Assets;
+import dev.monopoly.gfx.Display;
 import dev.monopoly.input.KeyManager;
 import dev.monopoly.input.MouseManager;
 import dev.monopoly.states.GameState;
 import dev.monopoly.states.MenuState;
+import dev.monopoly.states.SettingsState;
 import dev.monopoly.states.State;
 
 
@@ -36,6 +37,7 @@ public class Monopoly implements Runnable{
 	//States
 	public State gameState;
 	public State menuState;
+	public State settingsState;
 	
 	//Game Update
 	public int FPS;
@@ -66,6 +68,7 @@ public class Monopoly implements Runnable{
 		
 		gameState = new GameState(handler);
 		menuState = new MenuState(handler);
+		settingsState = new SettingsState(handler);
 		
 		State.setState(menuState);
 	}

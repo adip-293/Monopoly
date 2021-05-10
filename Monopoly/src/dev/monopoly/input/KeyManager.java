@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener{
 
 	private boolean[] keys, justPressed, cantPress;
-	public boolean up,down,left,right,interact,sprint, pause;
+	public boolean a;
 	
 	public KeyManager() {
 		keys = new boolean[256];
@@ -27,17 +27,7 @@ public class KeyManager implements KeyListener{
 			}
 		}
 		
-		if(keyJustPressed(KeyEvent.VK_E)) {
-			System.out.println("Button Pressed");
-		}
 		
-		up = keys[KeyEvent.VK_W];
-		down = keys[KeyEvent.VK_S];
-		left = keys[KeyEvent.VK_A];
-		right = keys[KeyEvent.VK_D];
-		sprint = keys[KeyEvent.VK_SHIFT];
-		interact = keys[KeyEvent.VK_SPACE];
-		pause = keys[KeyEvent.VK_ESCAPE];
 	}
 	
 	public boolean keyJustPressed(int keyCode){

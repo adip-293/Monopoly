@@ -1,5 +1,6 @@
 package dev.monopoly.states;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import dev.monopoly.Handler;
@@ -11,7 +12,7 @@ public class SettingsState extends State{
 	private UIManager uiManager;
 	
 	public SettingsState(Handler handler) {
-		super(handler);	
+		this.handler=handler;
 		uiManager = new UIManager(handler);
 		
 	}
@@ -26,6 +27,15 @@ public class SettingsState extends State{
 
 	@Override
 	public void render(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, 1000, 1000);
+		g.fillRect(1000, 0, 618, 1000);
+		
+		g.setColor(new Color(153,204,255));
+		g.fillRect(1000,10,608,980);
+		
+		g.drawImage(Assets.gameBoard, 10, 10, 980, 980,null);
+		
 		uiManager.render(g);
 	}
 
