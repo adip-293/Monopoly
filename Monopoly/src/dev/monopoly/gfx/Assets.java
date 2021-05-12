@@ -8,9 +8,13 @@ public class Assets {
 	public static final int chanceWidth = 458, chanceHeight=292;
 	
 	public static BufferedImage[] titleDeeds;
-	public static final int deedWidth = 450, deedHeight = 658;
+	public static final int deedWidth = 450, deedHeight = 685;
+	
+	public static BufferedImage[] slideshowButtons;
 	
 	public static BufferedImage[] startButtons;
+	
+	public static BufferedImage[] gamePieces;
 	
 	public static BufferedImage gameBoard, startScreen;
 	
@@ -19,17 +23,36 @@ public class Assets {
 		SpriteSheet communityChestCardsSheet = new SpriteSheet(Utils.loadImage("/CommunityChestCards.png"));
 		SpriteSheet titleDeedsSheet = new SpriteSheet(Utils.loadImage("/TitleDeeds.png"));
 		SpriteSheet startButtonsSheet = new SpriteSheet(Utils.loadImage("/StartButtons.png"));
+		SpriteSheet slideshowButtonsSheet = new SpriteSheet(Utils.loadImage("/SlideshowButtons.png"));
+		SpriteSheet gamePieceSheet = new SpriteSheet(Utils.loadImage("/GamePieces.png"));
 		
 		
 		gameBoard =  Utils.loadImage("/GameBoard.png");
 		
 		startScreen = Utils.loadImage("/StartScreen.png");
 		
+		slideshowButtons = new BufferedImage[4];
+		slideshowButtons[0] = slideshowButtonsSheet.crop(0, 0, 185, 220);
+		slideshowButtons[1] = slideshowButtonsSheet.crop(185, 0, 185, 220);
+		slideshowButtons[2] = slideshowButtonsSheet.crop(0, 220, 185, 220);
+		slideshowButtons[3] = slideshowButtonsSheet.crop(185, 220, 185, 220);
+		
+		
 		startButtons = new BufferedImage[2];
 		startButtons[0] = startButtonsSheet.crop(0, 0, 496, 150);
 		startButtons[1] = startButtonsSheet.crop(0, 150, 496, 150);
 		
-		chanceCards= new BufferedImage[18];
+		gamePieces = new BufferedImage[8];
+		gamePieces[0] = gamePieceSheet.crop(0,0,300,300);
+		gamePieces[1] = gamePieceSheet.crop(300,0,300,300);
+		gamePieces[2] = gamePieceSheet.crop(0,300,300,300);
+		gamePieces[3] = gamePieceSheet.crop(300,300,300,300);
+		gamePieces[4] = gamePieceSheet.crop(0,600,300,300);
+		gamePieces[5] = gamePieceSheet.crop(300,600,300,300);
+		gamePieces[6] = gamePieceSheet.crop(0,900,300,300);
+		gamePieces[7] = gamePieceSheet.crop(300,900,300,300);
+		
+		chanceCards = new BufferedImage[18];
 		chanceCards[0] = chanceCardsSheet.crop(0 * chanceWidth,0 * chanceHeight,chanceWidth,chanceHeight);
 		chanceCards[1] = chanceCardsSheet.crop(1 * chanceWidth,0 * chanceHeight,chanceWidth,chanceHeight);
 		chanceCards[2] = chanceCardsSheet.crop(0 * chanceWidth,1 * chanceHeight,chanceWidth,chanceHeight);

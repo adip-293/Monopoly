@@ -10,11 +10,17 @@ import dev.monopoly.ui.UIManager;
 public class SettingsState extends State{
 	
 	private UIManager uiManager;
+	private int stage;
+	
+	//Gets Player Count
+	//Gets Bot Count
+	//Players Choose Pieces
+	//
 	
 	public SettingsState(Handler handler) {
+		stage=1;
 		this.handler=handler;
 		uiManager = new UIManager(handler);
-		
 	}
 
 	@Override

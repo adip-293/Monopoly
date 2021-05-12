@@ -31,7 +31,7 @@ public class GameState extends State{
 		g.setColor(new Color(153,204,255));
 		g.fillRect(1000,10,608,980);
 		
-		g.drawImage(Assets.gameBoard, 10, 10, 980, 980,null);
+		g.drawImage(Assets.gameBoard, 10, 10, 980, 980, null);
 		
 		uiManager.render(g);
 	}

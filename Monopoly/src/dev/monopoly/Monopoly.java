@@ -39,11 +39,6 @@ public class Monopoly implements Runnable{
 	public State menuState;
 	public State settingsState;
 	
-	//Game Update
-	public int FPS;
-	
-
-	
 	public Monopoly (String title, int width, int height) {
 		this.width=width;
 		this.height=height;
@@ -98,10 +93,10 @@ public class Monopoly implements Runnable{
 	
 	public void run() {
 		init();
-		
-		int fps = 30;
-		double timePerTick = 1000000000 / fps;
-		double delta =0;
+		int fps;
+		int fpsLimit = 30;
+		double timePerTick = 1000000000 / fpsLimit;
+		double delta = 0;
 		long now;
 		long lastTime = System.nanoTime();
 		long timer = 0;
@@ -121,8 +116,8 @@ public class Monopoly implements Runnable{
 			}
 			
 			if(timer >= 1000000000) {
-				FPS = ticks;
-				System.out.println("FPS: " + FPS);
+				fps = ticks;
+				System.out.println("FPS: " + fps);
 				ticks=0;
 				timer=0;
 			}
@@ -166,5 +161,8 @@ public class Monopoly implements Runnable{
 		return mouseManager;
 	}
 	
+	public Display getDisplay() {
+		return display;
+	}
 	
 }

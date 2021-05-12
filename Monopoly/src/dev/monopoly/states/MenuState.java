@@ -7,6 +7,7 @@ import dev.monopoly.Handler;
 import dev.monopoly.gfx.Assets;
 import dev.monopoly.ui.Button;
 import dev.monopoly.ui.Clickable;
+import dev.monopoly.ui.Slideshow;
 import dev.monopoly.ui.UIManager;
 
 public class MenuState extends State{
@@ -17,12 +18,13 @@ public class MenuState extends State{
 		this.handler=handler;
 		uiManager = new UIManager(handler);
 		
-		uiManager.addObject(new Button(646,585,496,150,handler,Assets.startButtons, new Clickable() {
+		uiManager.addObject(new Button(646,585,496,150,Assets.startButtons, new Clickable() {
 			@Override
 			public void onClick() {
 				handler.getMouseManager().setUIManager(null);
 				State.setState(handler.getGame().settingsState);
 			}}));
+
 	}
 
 	@Override
