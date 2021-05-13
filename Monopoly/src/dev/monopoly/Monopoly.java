@@ -9,6 +9,7 @@ import dev.monopoly.input.MouseManager;
 import dev.monopoly.states.GameState;
 import dev.monopoly.states.MenuState;
 import dev.monopoly.states.SettingsState;
+import dev.monopoly.states.SetupState;
 import dev.monopoly.states.State;
 
 
@@ -35,9 +36,10 @@ public class Monopoly implements Runnable{
 	private Handler handler;
 	
 	//States
-	public State gameState;
 	public State menuState;
 	public State settingsState;
+	public State setupState;
+	public State gameState;
 	
 	public Monopoly (String title, int width, int height) {
 		this.width=width;
@@ -61,11 +63,13 @@ public class Monopoly implements Runnable{
 		
 		handler = new Handler(this);
 		
-		gameState = new GameState(handler);
+		
 		menuState = new MenuState(handler);
 		settingsState = new SettingsState(handler);
+		setupState = new SetupState(handler);
+		gameState = new GameState(handler);
 		
-		State.setState(settingsState);
+		State.setState(menuState);
 	}
 	
 	private void update() {

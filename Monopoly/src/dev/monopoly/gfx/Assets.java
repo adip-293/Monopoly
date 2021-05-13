@@ -5,13 +5,15 @@ import java.awt.image.BufferedImage;
 
 public class Assets {
 
-	public static Font kabel48;
+	public static Font kabel48, kabel24, kabel12;
 	
 	public static BufferedImage[] chanceCards, communityChestCards;
 	public static final int chanceWidth = 458, chanceHeight=292;
 	
 	public static BufferedImage[] titleDeeds;
 	public static final int deedWidth = 450, deedHeight = 685;
+	
+	public static BufferedImage[] nextButtons;
 	
 	public static BufferedImage[] slideshowButtons;
 	
@@ -31,11 +33,14 @@ public class Assets {
 		SpriteSheet slideshowButtonsSheet = new SpriteSheet(Utils.loadImage("/SlideshowButtons.png"));
 		SpriteSheet gamePieceSheet = new SpriteSheet(Utils.loadImage("/GamePieces.png"));
 		SpriteSheet playerSelectionButtonsSheet = new SpriteSheet(Utils.loadImage("/PlayerSelectionButtons.png"));
+		SpriteSheet nextButtonsSheet = new SpriteSheet(Utils.loadImage("/SettingsNextButtons.png"));
 		
 		gameBoard =  Utils.loadImage("/GameBoard.png");
 		
 		startScreen = Utils.loadImage("/StartScreen.png");
 		
+		kabel12 = Utils.loadFont("res/fonts/kabelc-medium.otf", 12);
+		kabel24 = Utils.loadFont("res/fonts/kabelc-medium.otf", 24);
 		kabel48 = Utils.loadFont("res/fonts/kabelc-medium.otf", 48);
 		
 		playerSelectionButtonZero = new BufferedImage[2];
@@ -58,6 +63,9 @@ public class Assets {
 		playerSelectionButtonFour[0] = playerSelectionButtonsSheet.crop(200, 200, 200, 200);
 		playerSelectionButtonFour[1] = playerSelectionButtonsSheet.crop(200, 600, 200, 200);
 
+		nextButtons = new BufferedImage[2];
+		nextButtons[0] = nextButtonsSheet.crop(0,0,608,80);
+		nextButtons[1] = nextButtonsSheet.crop(0,80,608,80);
 		
 		
 		slideshowButtons = new BufferedImage[4];

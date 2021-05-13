@@ -2,13 +2,12 @@ package dev.monopoly.states;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 import dev.monopoly.Handler;
 import dev.monopoly.gfx.Assets;
 import dev.monopoly.gfx.Utils;
+import dev.monopoly.ui.Button;
 import dev.monopoly.ui.Clickable;
-import dev.monopoly.ui.RadioButton;
 import dev.monopoly.ui.Switch;
 import dev.monopoly.ui.UIManager;
 
@@ -71,7 +70,7 @@ public class SettingsState extends State{
 		uiManager.addObject(playerButtonThree);
 		uiManager.addObject(playerButtonFour);
 		
-		botButtonZero = new Switch(1012, 350, 137, 137,Assets.playerSelectionButtonZero,false, new Clickable() {
+		botButtonZero = new Switch(1012, 350, 137, 137,Assets.playerSelectionButtonZero,true, new Clickable() {
 			@Override
 			public void onClick() {
 				numBots=0;
@@ -108,6 +107,15 @@ public class SettingsState extends State{
 				botButtonThree.setActivity(true);
 			}});
 		
+		uiManager.addObject(new Button(1000,910,608,80,Assets.nextButtons, new Clickable() {
+			@Override
+			public void onClick() {
+				if(numBots+numPlayers<=4 && numBots+numPlayers>=2 && numPlayers>=1 ) {
+					handler.getMouseManager().setUIManager(null);
+					State.setState(handler.getGame().setupState);
+				}
+			}}));
+		
 		uiManager.addObject(botButtonZero);
 		uiManager.addObject(botButtonOne);
 		uiManager.addObject(botButtonTwo);
@@ -140,6 +148,10 @@ public class SettingsState extends State{
 		Utils.drawString(g, "Number of Bots",1304,300, true, Color.black, Assets.kabel48);
 		
 		Utils.drawString(g, "Total: " + (numBots+numPlayers),1304,700, true, Color.black, Assets.kabel48);
+		
+		Utils.drawString(g, "Keep The Total Number of Players(Including Bots) Between 1-4" ,1304,900, true, Color.black, Assets.kabel12);
+		
+		
 		
 		uiManager.render(g);
 	}
