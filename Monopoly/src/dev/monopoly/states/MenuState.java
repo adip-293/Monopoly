@@ -18,12 +18,6 @@ public class MenuState extends State{
 		this.handler=handler;
 		uiManager = new UIManager(handler);
 		
-		uiManager.addObject(new Button(646,585,496,150,Assets.startButtons, new Clickable() {
-			@Override
-			public void onClick() {
-				handler.getMouseManager().setUIManager(null);
-				State.setState(handler.getGame().settingsState);
-			}}));
 
 	}
 

@@ -2,26 +2,119 @@ package dev.monopoly.states;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import dev.monopoly.Handler;
 import dev.monopoly.gfx.Assets;
+import dev.monopoly.gfx.Utils;
+import dev.monopoly.ui.Clickable;
+import dev.monopoly.ui.RadioButton;
+import dev.monopoly.ui.Switch;
 import dev.monopoly.ui.UIManager;
 
 public class SettingsState extends State{
 	
 	private UIManager uiManager;
 	private int stage;
+	private int numPlayers, numBots;
+	private static Switch playerButtonOne, playerButtonTwo, playerButtonThree,playerButtonFour;
+	private static Switch botButtonZero, botButtonOne, botButtonTwo, botButtonThree;
 	
 	//Gets Player Count
 	//Gets Bot Count
 	//Players Choose Pieces
-	//
 	
 	public SettingsState(Handler handler) {
 		stage=1;
 		this.handler=handler;
 		uiManager = new UIManager(handler);
+		
+		playerButtonOne = new Switch(1012, 100, 137, 137,Assets.playerSelectionButtonOne,false, new Clickable() {
+			@Override
+			public void onClick() {
+				numPlayers=1;
+				playerButtonOne.setActivity(true);
+				playerButtonTwo.setActivity(false);
+				playerButtonThree.setActivity(false);
+				playerButtonFour.setActivity(false);
+			}});
+		playerButtonTwo = new Switch(1161, 100, 137, 137,Assets.playerSelectionButtonTwo,false, new Clickable() {
+			@Override
+			public void onClick() {
+				numPlayers=2;
+				playerButtonOne.setActivity(false);
+				playerButtonTwo.setActivity(true);
+				playerButtonThree.setActivity(false);
+				playerButtonFour.setActivity(false);
+			}});
+		playerButtonThree = new Switch(1310, 100, 137, 137,Assets.playerSelectionButtonThree,false, new Clickable() {
+			@Override
+			public void onClick() {
+				numPlayers=3;
+				playerButtonOne.setActivity(false);
+				playerButtonTwo.setActivity(false);
+				playerButtonThree.setActivity(true);
+				playerButtonFour.setActivity(false);
+			}});
+		playerButtonFour = new Switch(1459, 100, 137, 137,Assets.playerSelectionButtonFour,false, new Clickable() {
+			@Override
+			public void onClick() {
+				numPlayers=4;
+				playerButtonOne.setActivity(false);
+				playerButtonTwo.setActivity(false);
+				playerButtonThree.setActivity(false);
+				playerButtonFour.setActivity(true);
+			}});
+
+		uiManager.addObject(playerButtonOne);
+		uiManager.addObject(playerButtonTwo);
+		uiManager.addObject(playerButtonThree);
+		uiManager.addObject(playerButtonFour);
+		
+		botButtonZero = new Switch(1012, 350, 137, 137,Assets.playerSelectionButtonZero,false, new Clickable() {
+			@Override
+			public void onClick() {
+				numBots=0;
+				botButtonZero.setActivity(true);
+				botButtonOne.setActivity(false);
+				botButtonTwo.setActivity(false);
+				botButtonThree.setActivity(false);
+			}});
+		botButtonOne = new Switch(1161, 350, 137, 137,Assets.playerSelectionButtonOne,false, new Clickable() {
+			@Override
+			public void onClick() {
+				numBots=1;
+				botButtonZero.setActivity(false);
+				botButtonOne.setActivity(true);
+				botButtonTwo.setActivity(false);
+				botButtonThree.setActivity(false);
+			}});
+		botButtonTwo = new Switch(1310, 350, 137, 137,Assets.playerSelectionButtonTwo,false, new Clickable() {
+			@Override
+			public void onClick() {
+				numBots=2;
+				botButtonZero.setActivity(false);
+				botButtonOne.setActivity(false);
+				botButtonTwo.setActivity(true);
+				botButtonThree.setActivity(false);
+			}});
+		botButtonThree = new Switch(1459, 350, 137, 137,Assets.playerSelectionButtonThree,false, new Clickable() {
+			@Override
+			public void onClick() {
+				numBots=3;
+				botButtonZero.setActivity(false);
+				botButtonOne.setActivity(false);
+				botButtonTwo.setActivity(false);
+				botButtonThree.setActivity(true);
+			}});
+		
+		uiManager.addObject(botButtonZero);
+		uiManager.addObject(botButtonOne);
+		uiManager.addObject(botButtonTwo);
+		uiManager.addObject(botButtonThree);
 	}
+	
+	
 
 	@Override
 	public void update() {
@@ -41,6 +134,12 @@ public class SettingsState extends State{
 		g.fillRect(1000,10,608,980);
 		
 		g.drawImage(Assets.gameBoard, 10, 10, 980, 980,null);
+		
+		Utils.drawString(g, "Number of Players",1304,50, true, Color.black, Assets.kabel48);
+		
+		Utils.drawString(g, "Number of Bots",1304,300, true, Color.black, Assets.kabel48);
+		
+		Utils.drawString(g, "Total: " + (numBots+numPlayers),1304,700, true, Color.black, Assets.kabel48);
 		
 		uiManager.render(g);
 	}

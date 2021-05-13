@@ -65,7 +65,7 @@ public class Monopoly implements Runnable{
 		menuState = new MenuState(handler);
 		settingsState = new SettingsState(handler);
 		
-		State.setState(menuState);
+		State.setState(settingsState);
 	}
 	
 	private void update() {

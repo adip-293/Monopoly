@@ -38,6 +38,10 @@ public abstract class UIObject {
 	}
 	
 	// Getters and setters
+	public Rectangle getBounds() {
+		return bounds;
+	}
+	
 	public float getX() {
 		return x;
 	}

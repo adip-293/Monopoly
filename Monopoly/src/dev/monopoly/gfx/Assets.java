@@ -1,9 +1,12 @@
 package dev.monopoly.gfx;
 
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 
 public class Assets {
 
+	public static Font kabel48;
+	
 	public static BufferedImage[] chanceCards, communityChestCards;
 	public static final int chanceWidth = 458, chanceHeight=292;
 	
@@ -13,6 +16,8 @@ public class Assets {
 	public static BufferedImage[] slideshowButtons;
 	
 	public static BufferedImage[] startButtons;
+	
+	public static BufferedImage[] playerSelectionButtonZero, playerSelectionButtonOne, playerSelectionButtonTwo, playerSelectionButtonThree, playerSelectionButtonFour;
 	
 	public static BufferedImage[] gamePieces;
 	
@@ -25,17 +30,41 @@ public class Assets {
 		SpriteSheet startButtonsSheet = new SpriteSheet(Utils.loadImage("/StartButtons.png"));
 		SpriteSheet slideshowButtonsSheet = new SpriteSheet(Utils.loadImage("/SlideshowButtons.png"));
 		SpriteSheet gamePieceSheet = new SpriteSheet(Utils.loadImage("/GamePieces.png"));
+		SpriteSheet playerSelectionButtonsSheet = new SpriteSheet(Utils.loadImage("/PlayerSelectionButtons.png"));
 		
 		gameBoard =  Utils.loadImage("/GameBoard.png");
 		
 		startScreen = Utils.loadImage("/StartScreen.png");
+		
+		kabel48 = Utils.loadFont("res/fonts/kabelc-medium.otf", 48);
+		
+		playerSelectionButtonZero = new BufferedImage[2];
+		playerSelectionButtonZero[0] = playerSelectionButtonsSheet.crop(0, 800, 200, 200);
+		playerSelectionButtonZero[1] = playerSelectionButtonsSheet.crop(200, 800, 200, 200);
+		
+		playerSelectionButtonOne = new BufferedImage[2];
+		playerSelectionButtonOne[0] = playerSelectionButtonsSheet.crop(0, 0, 200, 200);
+		playerSelectionButtonOne[1] = playerSelectionButtonsSheet.crop(0, 400, 200, 200);
+		
+		playerSelectionButtonTwo = new BufferedImage[2];
+		playerSelectionButtonTwo[0] = playerSelectionButtonsSheet.crop(200, 0, 200, 200);
+		playerSelectionButtonTwo[1] = playerSelectionButtonsSheet.crop(200, 400, 200, 200);
+		
+		playerSelectionButtonThree = new BufferedImage[2];
+		playerSelectionButtonThree[0] = playerSelectionButtonsSheet.crop(0, 200, 200, 200);
+		playerSelectionButtonThree[1] = playerSelectionButtonsSheet.crop(0, 600, 200, 200);
+		
+		playerSelectionButtonFour = new BufferedImage[2];
+		playerSelectionButtonFour[0] = playerSelectionButtonsSheet.crop(200, 200, 200, 200);
+		playerSelectionButtonFour[1] = playerSelectionButtonsSheet.crop(200, 600, 200, 200);
+
+		
 		
 		slideshowButtons = new BufferedImage[4];
 		slideshowButtons[0] = slideshowButtonsSheet.crop(0, 0, 185, 220);
 		slideshowButtons[1] = slideshowButtonsSheet.crop(185, 0, 185, 220);
 		slideshowButtons[2] = slideshowButtonsSheet.crop(0, 220, 185, 220);
 		slideshowButtons[3] = slideshowButtonsSheet.crop(185, 220, 185, 220);
-		
 		
 		startButtons = new BufferedImage[2];
 		startButtons[0] = startButtonsSheet.crop(0, 0, 496, 150);
