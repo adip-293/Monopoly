@@ -5,7 +5,7 @@ import dev.monopoly.input.MouseManager;
 
 public class Handler {
 
-	Monopoly game;
+	Monopoly game; 
 	
 	public Handler(Monopoly game) {
 		this.game = game;
