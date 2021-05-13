@@ -47,7 +47,7 @@ public class MouseManager implements MouseListener, MouseMotionListener,MouseWhe
 		this.rotations = rotations;
 	}
 
-	//IMPLEMENTED METHODS
+	//IMPLEMENTED METHODSd
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
