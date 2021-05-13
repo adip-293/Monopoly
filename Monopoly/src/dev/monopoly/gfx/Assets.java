@@ -26,7 +26,6 @@ public class Assets {
 		SpriteSheet slideshowButtonsSheet = new SpriteSheet(Utils.loadImage("/SlideshowButtons.png"));
 		SpriteSheet gamePieceSheet = new SpriteSheet(Utils.loadImage("/GamePieces.png"));
 		
-		
 		gameBoard =  Utils.loadImage("/GameBoard.png");
 		
 		startScreen = Utils.loadImage("/StartScreen.png");
