@@ -14,7 +14,6 @@ import dev.monopoly.ui.UIManager;
 public class SettingsState extends State{
 	
 	private UIManager uiManager;
-	private int stage;
 	private int numPlayers, numBots;
 	private static Switch playerButtonOne, playerButtonTwo, playerButtonThree,playerButtonFour;
 	private static Switch botButtonZero, botButtonOne, botButtonTwo, botButtonThree;
@@ -24,7 +23,6 @@ public class SettingsState extends State{
 	//Players Choose Pieces
 	
 	public SettingsState(Handler handler) {
-		stage=1;
 		this.handler=handler;
 		uiManager = new UIManager(handler);
 		
@@ -111,6 +109,8 @@ public class SettingsState extends State{
 			@Override
 			public void onClick() {
 				if(numBots+numPlayers<=4 && numBots+numPlayers>=2 && numPlayers>=1 ) {
+					handler.getGame().setNumBots(numBots);
+					handler.getGame().setNumPlayers(numPlayers);
 					handler.getMouseManager().setUIManager(null);
 					State.setState(handler.getGame().setupState);
 				}

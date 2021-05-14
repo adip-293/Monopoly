@@ -35,6 +35,10 @@ public class Monopoly implements Runnable{
 	//Handler
 	private Handler handler;
 	
+	//Players
+	private int numPlayers, numBots;
+	private int[] playerIcon, botIcon;
+	
 	//States
 	public State menuState;
 	public State settingsState;
@@ -63,6 +67,19 @@ public class Monopoly implements Runnable{
 		
 		handler = new Handler(this);
 		
+		numPlayers=0;
+		playerIcon = new int[4];
+		playerIcon[0]=-1;
+		playerIcon[1]=-1;
+		playerIcon[2]=-1;
+		playerIcon[3]=-1;
+		
+		numBots=0;
+		botIcon = new int[4];
+		botIcon[0]=-1;
+		botIcon[1]=-1;
+		botIcon[2]=-1;
+		botIcon[3]=-1;
 		
 		menuState = new MenuState(handler);
 		settingsState = new SettingsState(handler);
@@ -76,6 +93,13 @@ public class Monopoly implements Runnable{
 		keyManager.update();
 		if(State.getState() != null) 
 			State.getState().update();
+		
+		System.out.print("Player: ");
+		for(int i : playerIcon)
+			System.out.print(i+" ");
+		System.out.print("Bot: ");
+		for(int i : botIcon)
+			System.out.print(i+" ");
 	}
 
 	private void render() {
@@ -149,10 +173,42 @@ public class Monopoly implements Runnable{
 		}
 	}
 	
+	public int getNumPlayers() {
+		return numPlayers;
+	}
+
+	public void setNumPlayers(int numPlayers) {
+		this.numPlayers = numPlayers;
+	}
+
+	public int getNumBots() {
+		return numBots;
+	}
+
+	public void setNumBots(int numBots) {
+		this.numBots = numBots;
+	}
+	
+	public int[] getPlayerIcon() {
+		return playerIcon;
+	}
+
+	public void setPlayerIcon(int[] playerIcon) {
+		this.playerIcon = playerIcon;
+	}
+
+	public int[] getBotIcon() {
+		return botIcon;
+	}
+
+	public void setBotIcon(int[] botIcon) {
+		this.botIcon = botIcon;
+	}
+
 	public int getWidth() {
 		return width;
 	}
-	
+
 	public int getHeight() {
 		return height;
 	}
