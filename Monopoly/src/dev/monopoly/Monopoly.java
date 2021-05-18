@@ -86,20 +86,13 @@ public class Monopoly implements Runnable{
 		setupState = new SetupState(handler);
 		gameState = new GameState(handler);
 		
-		State.setState(menuState);
+		State.setState(gameState);
 	}
 	
 	private void update() {
 		keyManager.update();
 		if(State.getState() != null) 
 			State.getState().update();
-		
-		System.out.print("Player: ");
-		for(int i : playerIcon)
-			System.out.print(i+" ");
-		System.out.print("Bot: ");
-		for(int i : botIcon)
-			System.out.print(i+" ");
 	}
 
 	private void render() {

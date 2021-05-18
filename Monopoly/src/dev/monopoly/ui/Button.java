@@ -3,8 +3,6 @@ package dev.monopoly.ui;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import dev.monopoly.Handler;
-
 public class Button extends UIObject{
 
 	private BufferedImage[] images;

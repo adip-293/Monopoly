@@ -25,6 +25,8 @@ public class Assets {
 	
 	public static BufferedImage gameBoard, startScreen;
 	
+	public static BufferedImage[] buttonPalette;
+	
 	public static void init() {
 		SpriteSheet chanceCardsSheet = new SpriteSheet(Utils.loadImage("/ChanceCards.png"));
 		SpriteSheet communityChestCardsSheet = new SpriteSheet(Utils.loadImage("/CommunityChestCards.png"));
@@ -34,6 +36,7 @@ public class Assets {
 		SpriteSheet gamePieceSheet = new SpriteSheet(Utils.loadImage("/GamePieces.png"));
 		SpriteSheet playerSelectionButtonsSheet = new SpriteSheet(Utils.loadImage("/PlayerSelectionButtons.png"));
 		SpriteSheet nextButtonsSheet = new SpriteSheet(Utils.loadImage("/SettingsNextButtons.png"));
+		SpriteSheet buttonPaletteSheet = new SpriteSheet(Utils.loadImage("/ButtonPalette.png"));
 		
 		gameBoard =  Utils.loadImage("/GameBoard.png");
 		
@@ -42,6 +45,10 @@ public class Assets {
 		kabel12 = Utils.loadFont("res/fonts/kabelc-medium.otf", 12);
 		kabel24 = Utils.loadFont("res/fonts/kabelc-medium.otf", 24);
 		kabel48 = Utils.loadFont("res/fonts/kabelc-medium.otf", 48);
+		
+		buttonPalette = new BufferedImage[2];
+		buttonPalette[0] = buttonPaletteSheet.crop(0, 0, 1000, 500);
+		buttonPalette[1] = buttonPaletteSheet.crop(0, 500, 1000, 500);
 		
 		playerSelectionButtonZero = new BufferedImage[2];
 		playerSelectionButtonZero[0] = playerSelectionButtonsSheet.crop(0, 800, 200, 200);
