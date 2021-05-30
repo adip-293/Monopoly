@@ -45,10 +45,8 @@ public class Switch extends UIObject{
 		else
 			g.drawImage(images[1],(int) x, (int) y , width, height, null);
 		
-		if(font!=null) {
-			System.out.print("hi");
+		if(font!=null) 
 			Utils.drawString(g, text, (int) (x+width/2), (int) (y+height/2), true, Color.BLACK, font);
-		}
 			
 	}
 

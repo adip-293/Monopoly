@@ -48,7 +48,7 @@ public class Slideshow extends UIObject{
 	
 	@Override
 	public void onMouseRelease(MouseEvent e){
-		if(leftHover || rightHover)
+		if((leftHover || rightHover) && images!=null)
 			onClick();
 	}
 
@@ -59,22 +59,23 @@ public class Slideshow extends UIObject{
 
 	@Override
 	public void render(Graphics g) {
-		if(imageIndex<0)
-			imageIndex = images.length+imageIndex;
-		imageIndex = imageIndex % images.length;
-		
-		g.drawImage(images[imageIndex],(int) (x+width/2-images[imageIndex].getWidth()*imageScale/2), (int) ((y+height/2) - (images[imageIndex].getHeight()*imageScale/2)), (int) (images[imageIndex].getWidth()*imageScale), (int) (images[imageIndex].getHeight()*imageScale), null);
-		
-		if (leftHover)
-			g.drawImage(arrows[2],(int) x, (int) ((y+height/2) - (arrows[2].getHeight()*arrowScale/2)) , (int) (arrows[2].getWidth()*arrowScale), (int) (arrows[2].getHeight()*arrowScale), null);
-		else
-			g.drawImage(arrows[0],(int) x, (int) ((y+height/2) - (arrows[0].getHeight()*arrowScale/2)) , (int) (arrows[0].getWidth()*arrowScale), (int) (arrows[0].getHeight()*arrowScale), null);
-		
-		if(rightHover)
-			g.drawImage(arrows[3],(int) (x+width-arrows[3].getWidth()*arrowScale), (int) ((y+height/2) - (arrows[0].getHeight()*arrowScale/2)) , (int) (arrows[3].getWidth()*arrowScale), (int) (arrows[1].getHeight()*arrowScale), null);
-		else
-			g.drawImage(arrows[1],(int) (x+width-arrows[1].getWidth()*arrowScale), (int) ((y+height/2) - (arrows[0].getHeight()*arrowScale/2)), (int) (arrows[1].getWidth()*arrowScale), (int) (arrows[1].getHeight()*arrowScale), null);
-	
+		if(images != null) {
+			if(imageIndex<0)
+				imageIndex = images.length+imageIndex;
+			imageIndex = imageIndex % images.length;
+			
+			g.drawImage(images[imageIndex],(int) (x+width/2-images[imageIndex].getWidth()*imageScale/2), (int) ((y+height/2) - (images[imageIndex].getHeight()*imageScale/2)), (int) (images[imageIndex].getWidth()*imageScale), (int) (images[imageIndex].getHeight()*imageScale), null);
+			
+			if (leftHover)
+				g.drawImage(arrows[2],(int) x, (int) ((y+height/2) - (arrows[2].getHeight()*arrowScale/2)) , (int) (arrows[2].getWidth()*arrowScale), (int) (arrows[2].getHeight()*arrowScale), null);
+			else
+				g.drawImage(arrows[0],(int) x, (int) ((y+height/2) - (arrows[0].getHeight()*arrowScale/2)) , (int) (arrows[0].getWidth()*arrowScale), (int) (arrows[0].getHeight()*arrowScale), null);
+			
+			if(rightHover)
+				g.drawImage(arrows[3],(int) (x+width-arrows[3].getWidth()*arrowScale), (int) ((y+height/2) - (arrows[0].getHeight()*arrowScale/2)) , (int) (arrows[3].getWidth()*arrowScale), (int) (arrows[1].getHeight()*arrowScale), null);
+			else
+				g.drawImage(arrows[1],(int) (x+width-arrows[1].getWidth()*arrowScale), (int) ((y+height/2) - (arrows[0].getHeight()*arrowScale/2)), (int) (arrows[1].getWidth()*arrowScale), (int) (arrows[1].getHeight()*arrowScale), null);
+		}
 	}
 
 	@Override
@@ -86,6 +87,14 @@ public class Slideshow extends UIObject{
 		clicker.onClick();
 	}
 	
+	public BufferedImage[] getImages() {
+		return images;
+	}
+
+	public void setImages(BufferedImage[] images) {
+		this.images = images;
+	}
+
 	public int getImageIndex() {
 		return imageIndex;
 	}

@@ -67,10 +67,10 @@ public class Monopoly implements Runnable{
 		
 		handler = new Handler(this);
 		
-		numPlayers=0;
+		numPlayers=2;
 		playerIcon = new int[4];
-		playerIcon[0]=-1;
-		playerIcon[1]=-1;
+		playerIcon[0]=0;
+		playerIcon[1]=1;
 		playerIcon[2]=-1;
 		playerIcon[3]=-1;
 		

@@ -6,17 +6,35 @@ import java.util.ArrayList;
 
 public class Player {
 	
-	private ArrayList<Card> properties; 
+	public static int nextPlayerNumber=1;
+	private int playerNumber;
+	private ArrayList<PropertyCard> properties; 
 	private int money;
-	private int x,y;
+	private int x,y,width,height;
 	private BufferedImage icon;
-
-	public Player(int x, int y, BufferedImage icon, int money) {
-		properties = new ArrayList<Card>();
+	private int rollsLeft;
+	private int position;
+	private int[] xPos = new int[] 	{0, 806, 725, 645, 564, 484, 404, 323, 243, 163, 0,  32,  32,  32,  32,  32,  32,  32,  32,  32, 0, 163, 243, 323, 404, 484, 564, 645, 725, 806, 936, 936, 936, 936, 936, 936, 936, 936, 936, 936};
+	private int[] yPos = new int[]  {0, 936, 936, 936, 936, 936, 936, 936, 936, 936, 0, 805, 725, 645, 565, 484, 403, 322, 242, 162, 0,  32,  32,  32,  32,  32,  32,  32,  32,  32,  32, 162, 242, 322, 403, 484, 565, 645, 725, 805};
+	private int[] goPos = new int[] {884, 884, 936, 884, 884, 936, 936, 936};
+	private int[] visitPos = new int[] {12, 865, 12, 923, 45, 957, 103, 957};
+	private int[] freePos = new int[] {32, 32, 84, 32, 32, 84, 84, 84};
+	private int[] deckPosRelation = new int[] {1,3,5,6,8,9,11,12,13,14,15,16,18,19,21,23,24,25,26,27,28,29,31,32,34,35,37,39};
+	private int placeModifier;
+	
+	public Player(int x, int y, int width, int height, BufferedImage icon, int money) {
+		properties = new ArrayList<PropertyCard>();
 		this.x=x;
 		this.y=y;
+		this.width=width;
+		this.height=height;
 		this.icon=icon;
 		this.money=money;
+		position=0;
+		rollsLeft=0;
+		placeModifier=0;
+		playerNumber=nextPlayerNumber;
+		nextPlayerNumber++;
 	}
 	
 	//Give Money
@@ -30,7 +48,7 @@ public class Player {
 	}
 	
 	//Adds Property
-	public void addProperty(Card property) {
+	public void addProperty(PropertyCard property) {
 		properties.add(property);
 	}
 	
@@ -41,11 +59,11 @@ public class Player {
 	
 	/*Trade n Cards for Money
 	  [Player out] gives [Player in] [propertyOut] cards for [cost]*/
-	public void trade(Player out, Player in, int cost, ArrayList<Card> propertyOut) {
+	public void trade(Player out, Player in, int cost, ArrayList<PropertyCard> propertyOut) {
 		out.addMoney(cost);
 		in.subtractMoney(cost);
 		
-		for(Card c : propertyOut) {
+		for(PropertyCard c : propertyOut) {
 			out.removeProperty(c);
 			in.addProperty(c);
 		}
@@ -53,51 +71,103 @@ public class Player {
 
 	/*Trade n Cards for n cards
 	  [Player out] gives [Player in] [propertyOut] cards for [propertyIn]*/
-	public void trade(Player out, Player in, ArrayList<Card> propertyOut, ArrayList<Card> propertyIn) {
-		for(Card c : propertyOut) {
+	public void trade(Player out, Player in, ArrayList<PropertyCard> propertyOut, ArrayList<PropertyCard> propertyIn) {
+		for(PropertyCard c : propertyOut) {
 			out.removeProperty(c);
 			in.addProperty(c);
 		}
-		for(Card c : propertyIn) {
+		for(PropertyCard c : propertyIn) {
 			in.removeProperty(c);
 			out.addProperty(c);
 		}
 	}
 	
 	public void update() {
-		
 	}
 	
 	public void render(Graphics g) {
-		
+		if(position==0)
+			g.drawImage(icon,goPos[0+placeModifier],goPos[1+placeModifier],width,height,null);
+		else if(position==10)
+			g.drawImage(icon,visitPos[0+placeModifier],visitPos[1+placeModifier],width,height,null);
+		else if(position==20)
+			g.drawImage(icon,freePos[0+placeModifier],freePos[1+placeModifier],width,height,null);
+		else
+			g.drawImage(icon,xPos[position],yPos[position],width,height,null);
+	}
+	
+	public void incrementPosition(int x) {
+		position+=x;
+		if(position>xPos.length-1)
+			position=0;
+	}
+	
+	public int positionToIndex() {
+		int index=-1;
+		for(int i=0;i<deckPosRelation.length;i++) {
+			if(deckPosRelation[i]==position) {
+				index=i;
+				break;
+			}
+		}
+		return index;
+	}
+
+	public boolean owns(PropertyCard property) {
+		boolean owned=false;
+		for(PropertyCard p : properties) {
+			if(p==property) {
+				owned=true;
+				break;
+			}
+		}
+		return owned;
 	}
 	
 	//Getters and Setters
 	
-	public int getX() {
-		return x;
+	public int getPosition() {
+		return position;
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	public int getPlayerNumber() {
+		return playerNumber;
 	}
 
-	public int getY() {
-		return y;
+	public int getPlaceModifier() {
+		return placeModifier;
 	}
 
-	public void setY(int y) {
-		this.y = y;
+	public void setPlaceModifier(int placeModifier) {
+		this.placeModifier = placeModifier;
 	}
 
-	public ArrayList<Card> getProperties() {
+	public ArrayList<PropertyCard> getProperties() {
 		return properties;
 	}
 
+	public BufferedImage[] getPropertyImages() {
+		BufferedImage[] propImages = new BufferedImage[properties.size()];
+		for(int i=0;i<propImages.length;i++) {
+			propImages[i] = properties.get(i).getFront();
+		}
+		return propImages;
+	}
+	
 	public int getMoney() {
 		return money;
 	}
 	
+	public int getRollsLeft() {
+		return rollsLeft;
+	}
+
+	public void incrementRollsLeft(int n) {
+		rollsLeft+=n;
+	}
 	
+	public void decrementRollsLeft(int n) {
+		rollsLeft-=n;
+	}
 	
 }
