@@ -84,6 +84,9 @@ public class Slideshow extends UIObject{
 			imageIndex++;
 		if(leftHover)
 			imageIndex--;
+		if(imageIndex<0)
+			imageIndex = images.length+imageIndex;
+		imageIndex = imageIndex % images.length;
 		clicker.onClick();
 	}
 	

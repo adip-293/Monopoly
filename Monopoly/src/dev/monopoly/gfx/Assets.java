@@ -12,7 +12,7 @@ import dev.monopoly.game.UtilityCard;
 
 public class Assets {
 
-	public static Font kabel48, kabel24, kabel12;
+	public static Font kabel48, kabel24, kabel12, kabel46;
 
 	public static BufferedImage[] chanceCards, communityChestCards;
 	public static final int chanceWidth = 458, chanceHeight = 292;
@@ -29,7 +29,7 @@ public class Assets {
 	public static BufferedImage[] playerSelectionButtonZero, playerSelectionButtonOne, playerSelectionButtonTwo,
 			playerSelectionButtonThree, playerSelectionButtonFour;
 
-	public static BufferedImage[] gamePieces;
+	public static BufferedImage[] gamePieces, nameList;
 
 	public static BufferedImage gameBoard, startScreen;
 
@@ -51,6 +51,7 @@ public class Assets {
 		SpriteSheet playerSelectionButtonsSheet = new SpriteSheet(Utils.loadImage("/PlayerSelectionButtons.png"));
 		SpriteSheet nextButtonsSheet = new SpriteSheet(Utils.loadImage("/SettingsNextButtons.png"));
 		SpriteSheet buttonPaletteSheet = new SpriteSheet(Utils.loadImage("/ButtonPalette.png"));
+		SpriteSheet nameListSheet = new SpriteSheet(Utils.loadImage("/NameList.png"));
 		SpriteSheet diceSheet = new SpriteSheet(Utils.loadImage("/Dice.png"));
 
 		gameBoard = Utils.loadImage("/GameBoard.png");
@@ -60,6 +61,7 @@ public class Assets {
 		kabel12 = Utils.loadFont("res/fonts/kabelc-medium.otf", 12);
 		kabel24 = Utils.loadFont("res/fonts/kabelc-medium.otf", 24);
 		kabel48 = Utils.loadFont("res/fonts/kabelc-medium.otf", 48);
+		kabel46 = Utils.loadFont("res/fonts/kabelc-medium.otf", 46);
 
 		buttonPalette = new BufferedImage[2];
 		buttonPalette[0] = buttonPaletteSheet.crop(0, 0, 1000, 500);
@@ -85,6 +87,12 @@ public class Assets {
 		playerSelectionButtonFour[0] = playerSelectionButtonsSheet.crop(200, 200, 200, 200);
 		playerSelectionButtonFour[1] = playerSelectionButtonsSheet.crop(200, 600, 200, 200);
 
+		nameList = new BufferedImage[4];
+		nameList[0] = nameListSheet.crop(0, 0, 295, 82);
+		nameList[1] = nameListSheet.crop(0, 82, 295, 82);
+		nameList[2] = nameListSheet.crop(0,82*2, 295, 82);
+		nameList[3] = nameListSheet.crop(0,82*3, 295, 82);
+	
 		nextButtons = new BufferedImage[2];
 		nextButtons[0] = nextButtonsSheet.crop(0, 0, 608, 80);
 		nextButtons[1] = nextButtonsSheet.crop(0, 80, 608, 80);

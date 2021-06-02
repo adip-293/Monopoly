@@ -65,27 +65,19 @@ public class Player {
 		if(property.getGroup()!=-1) 
 			groupOwned[property.getGroup()-1]--;
 	}
-	
-	/*Trade n Cards for Money
-	  [Player out] gives [Player in] [propertyOut] cards for [cost]*/
-	public void trade(Player out, Player in, int cost, ArrayList<PropertyCard> propertyOut) {
-		out.addMoney(cost);
-		in.subtractMoney(cost);
-		
-		for(PropertyCard c : propertyOut) {
-			out.removeProperty(c);
-			in.addProperty(c);
-		}
-	}
 
 	/*Trade n Cards for n cards
 	  [Player out] gives [Player in] [propertyOut] cards for [propertyIn]*/
 	public void trade(Player out, Player in, ArrayList<PropertyCard> propertyOut, ArrayList<PropertyCard> propertyIn) {
 		for(PropertyCard c : propertyOut) {
+			c.setOwner(in);
+			c.setTrading(false);
 			out.removeProperty(c);
 			in.addProperty(c);
 		}
 		for(PropertyCard c : propertyIn) {
+			c.setOwner(out);
+			c.setTrading(false);
 			in.removeProperty(c);
 			out.addProperty(c);
 		}
@@ -151,6 +143,12 @@ public class Player {
 	}
 	
 	//Getters and Setters
+	public void clearTrades() {
+		for(PropertyCard c : properties) {
+			c.setTrading(false);
+		}
+	}
+	
 	public void setPosition(int pos) {
 		position = pos;
 	}

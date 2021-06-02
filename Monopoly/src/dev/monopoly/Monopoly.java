@@ -74,9 +74,9 @@ public class Monopoly implements Runnable{
 		playerIcon[2]=-1;
 		playerIcon[3]=-1;
 		
-		numBots=0;
+		numBots=1;
 		botIcon = new int[4];
-		botIcon[0]=-1;
+		botIcon[0]=2;
 		botIcon[1]=-1;
 		botIcon[2]=-1;
 		botIcon[3]=-1;

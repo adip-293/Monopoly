@@ -9,7 +9,7 @@ public class PropertyCard extends Card{
 	private int price;
 	private String name;
 	private Player owner;
-	private boolean owned, mortgaged;
+	private boolean owned, mortgaged, trading;
 	private int group;
 	
 	public PropertyCard(BufferedImage front, String name, int price, int group, int x, int y) {
@@ -21,6 +21,7 @@ public class PropertyCard extends Card{
 		this.mortgageVal=100;
 		
 		this.group=group;
+		this.trading=false;
 		
 		owner=null;
 		owned=false;
@@ -30,6 +31,7 @@ public class PropertyCard extends Card{
 	public PropertyCard(BufferedImage front, String name, int price, int houseCost, int[] rentCost,int group, int x, int y) {
 		super(front, x, y);
 		houses=0;
+		this.trading=false;
 		this.rentCost=rentCost;
 		this.name=name;
 		this.price=price;
@@ -44,6 +46,15 @@ public class PropertyCard extends Card{
 	}
 
 	
+	
+	public boolean isTrading() {
+		return trading;
+	}
+
+	public void setTrading(boolean trading) {
+		this.trading = trading;
+	}
+
 	public int getRentCost() {
 		return rentCost[houses];
 	}
