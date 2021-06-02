@@ -14,11 +14,15 @@ public class Player {
 	private BufferedImage icon;
 	private int rollsLeft;
 	private int position;
+	private int jailbreakCards;
 	private int[] xPos = new int[] 	{0, 806, 725, 645, 564, 484, 404, 323, 243, 163, 0,  32,  32,  32,  32,  32,  32,  32,  32,  32, 0, 163, 243, 323, 404, 484, 564, 645, 725, 806, 936, 936, 936, 936, 936, 936, 936, 936, 936, 936};
 	private int[] yPos = new int[]  {0, 936, 936, 936, 936, 936, 936, 936, 936, 936, 0, 805, 725, 645, 565, 484, 403, 322, 242, 162, 0,  32,  32,  32,  32,  32,  32,  32,  32,  32,  32, 162, 242, 322, 403, 484, 565, 645, 725, 805};
 	private int[] goPos = new int[] {884, 884, 936, 884, 884, 936, 936, 936};
 	private int[] visitPos = new int[] {12, 865, 12, 923, 45, 957, 103, 957};
 	private int[] freePos = new int[] {32, 32, 84, 32, 32, 84, 84, 84};
+	private int[] jailPos = new int[] {55, 869, 99, 869, 55, 913, 99, 913};
+	private int[] groupCapacity = new int[] {2, 3, 3, 3, 3, 3, 3, 2, 4, 2};
+	private int[] groupOwned = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	private int[] deckPosRelation = new int[] {1,3,5,6,8,9,11,12,13,14,15,16,18,19,21,23,24,25,26,27,28,29,31,32,34,35,37,39};
 	private int placeModifier;
 	
@@ -34,6 +38,7 @@ public class Player {
 		rollsLeft=0;
 		placeModifier=0;
 		playerNumber=nextPlayerNumber;
+		jailbreakCards=0;
 		nextPlayerNumber++;
 	}
 	
@@ -50,11 +55,15 @@ public class Player {
 	//Adds Property
 	public void addProperty(PropertyCard property) {
 		properties.add(property);
+		if(property.getGroup()!=-1) 
+			groupOwned[property.getGroup()-1]++;
 	}
 	
 	//Remove Property
-	public void removeProperty(Card property) {
+	public void removeProperty(PropertyCard property) {
 		properties.remove(property);
+		if(property.getGroup()!=-1) 
+			groupOwned[property.getGroup()-1]--;
 	}
 	
 	/*Trade n Cards for Money
@@ -83,10 +92,13 @@ public class Player {
 	}
 	
 	public void update() {
+		
 	}
 	
 	public void render(Graphics g) {
-		if(position==0)
+		if(position==-1)
+			g.drawImage(icon,jailPos[0+placeModifier],jailPos[1+placeModifier],width,height,null);
+		else if(position==0)
 			g.drawImage(icon,goPos[0+placeModifier],goPos[1+placeModifier],width,height,null);
 		else if(position==10)
 			g.drawImage(icon,visitPos[0+placeModifier],visitPos[1+placeModifier],width,height,null);
@@ -98,8 +110,10 @@ public class Player {
 	
 	public void incrementPosition(int x) {
 		position+=x;
-		if(position>xPos.length-1)
-			position=0;
+		if(position>xPos.length-1) {
+			position %= xPos.length;
+			addMoney(200);
+		}
 	}
 	
 	public int positionToIndex() {
@@ -124,7 +138,42 @@ public class Player {
 		return owned;
 	}
 	
+	public PropertyCard[] getCardbyGroup(int groupNum) {
+		PropertyCard[] groupCards = new PropertyCard[groupCapacity[groupNum-1]];
+		int arrayIndex=0;
+		for(int i=0;i<properties.size();i++) {
+			if(properties.get(i).getGroup() == groupNum) {
+				groupCards[arrayIndex]=properties.get(i);
+				arrayIndex++;
+			}
+		}
+		return groupCards;
+	}
+	
 	//Getters and Setters
+	public void setPosition(int pos) {
+		position = pos;
+	}
+	
+	public int getJailbreakCards() {
+		return jailbreakCards;
+	}
+
+	public void addJailbreakCards(int jailbreakCards) {
+		this.jailbreakCards += jailbreakCards;
+	}
+	
+	public void useJailbreakCards() {
+		this.jailbreakCards -= 1;
+	}
+
+	public int getGroupCapacity(int i) {
+		return groupCapacity[i];
+	}
+	
+	public int getGroups(int i) {
+		return groupOwned[i];
+	}
 	
 	public int getPosition() {
 		return position;
@@ -169,5 +218,7 @@ public class Player {
 	public void decrementRollsLeft(int n) {
 		rollsLeft-=n;
 	}
+	
+	
 	
 }

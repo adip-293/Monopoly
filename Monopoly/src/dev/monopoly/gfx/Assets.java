@@ -4,8 +4,7 @@ import java.awt.Font;
 import java.awt.image.BufferedImage;
 
 import dev.monopoly.game.BoardCard;
-import dev.monopoly.game.Card;
-import dev.monopoly.game.Deck;
+import dev.monopoly.game.BoardDeck;
 import dev.monopoly.game.DeedCard;
 import dev.monopoly.game.PropertyCard;
 import dev.monopoly.game.PropertyDeck;
@@ -38,7 +37,7 @@ public class Assets {
 
 	public static BufferedImage[] dice;
 	
-	public static Deck chanceDeck, communityChestDeck;
+	public static BoardDeck chanceDeck, communityChestDeck;
 
 	public static PropertyDeck propertyDeck;
 
@@ -206,70 +205,70 @@ public class Assets {
 		titleDeeds[26] = titleDeedsSheet.crop(2 * deedWidth, 6 * deedHeight, deedWidth, deedHeight);
 		titleDeeds[27] = titleDeedsSheet.crop(3 * deedWidth, 6 * deedHeight, deedWidth, deedHeight);
 
-		chanceDeck = new Deck(new Card[] { new BoardCard(chanceCards[0], chanceCards[1], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[2], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[3], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[4], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[5], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[6], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[7], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[8], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[9], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[10], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[11], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[12], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[13], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[14], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[15], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[16], 0, 0, 1),
-				new BoardCard(chanceCards[0], chanceCards[17], 0, 0, 1) });
+		chanceDeck = new BoardDeck(new BoardCard[] { new BoardCard(chanceCards[0], chanceCards[1],271, 354, 15, 1),
+				new BoardCard(chanceCards[0], chanceCards[2], 271, 354, 15, 2),
+				new BoardCard(chanceCards[0], chanceCards[3], 271, 354, 15, 3),
+				//new BoardCard(chanceCards[0], chanceCards[4], 271, 354, 15, 4),
+				//new BoardCard(chanceCards[0], chanceCards[5], 271, 354, 15, 5),
+				new BoardCard(chanceCards[0], chanceCards[6], 271, 354, 15, 4),
+				new BoardCard(chanceCards[0], chanceCards[7], 271, 354, 15, 5),
+				new BoardCard(chanceCards[0], chanceCards[8], 271, 354, 15, 6),
+				new BoardCard(chanceCards[0], chanceCards[9], 271, 354, 15, 7),
+				new BoardCard(chanceCards[0], chanceCards[10], 271, 354, 15, 8),
+				new BoardCard(chanceCards[0], chanceCards[11], 271, 354, 15, 9),
+				new BoardCard(chanceCards[0], chanceCards[12], 271, 354, 15, 10),
+				new BoardCard(chanceCards[0], chanceCards[13], 271, 354, 15, 11),
+				new BoardCard(chanceCards[0], chanceCards[14], 271, 354, 15, 12),
+				new BoardCard(chanceCards[0], chanceCards[15], 271, 354, 15, 13),
+				new BoardCard(chanceCards[0], chanceCards[16], 271, 354, 15, 14),
+				new BoardCard(chanceCards[0], chanceCards[17], 271, 354, 15, 15) });
 		
-		communityChestDeck = new Deck(new Card[] { new BoardCard(communityChestCards[0], communityChestCards[1], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[2], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[3], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[4], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[5], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[6], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[7], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[8], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[9], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[10], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[11], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[12], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[13], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[14], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[15], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[16], 0, 0, 1),
-				new BoardCard(communityChestCards[0], communityChestCards[17], 0, 0, 1) });
+		communityChestDeck = new BoardDeck(new BoardCard[] { new BoardCard(communityChestCards[0], communityChestCards[1], 271, 354, 15, 1),
+				new BoardCard(communityChestCards[0], communityChestCards[2], 271, 354, 15, 2),
+				new BoardCard(communityChestCards[0], communityChestCards[3], 271, 354, 15, 3),
+				new BoardCard(communityChestCards[0], communityChestCards[4], 271, 354, 15, 4),
+				new BoardCard(communityChestCards[0], communityChestCards[5], 271, 354, 15, 5),
+				new BoardCard(communityChestCards[0], communityChestCards[6], 271, 354, 15, 6),
+				new BoardCard(communityChestCards[0], communityChestCards[7], 271, 354, 15, 7),
+				new BoardCard(communityChestCards[0], communityChestCards[8], 271, 354, 15, 8),
+				new BoardCard(communityChestCards[0], communityChestCards[9], 271, 354, 15, 9),
+				new BoardCard(communityChestCards[0], communityChestCards[10], 271, 354, 15, 10),
+				new BoardCard(communityChestCards[0], communityChestCards[11], 271, 354, 15, 11),
+				new BoardCard(communityChestCards[0], communityChestCards[12], 271, 354, 15, 12),
+				new BoardCard(communityChestCards[0], communityChestCards[13], 271, 354, 15, 13),
+				new BoardCard(communityChestCards[0], communityChestCards[14], 271, 354, 15, 14),
+				new BoardCard(communityChestCards[0], communityChestCards[15], 271, 354, 15, 15),
+				new BoardCard(communityChestCards[0], communityChestCards[16], 271, 354, 15, 16),
+				new BoardCard(communityChestCards[0], communityChestCards[17], 271, 354, 15, 17) });
 		
-		propertyDeck = new PropertyDeck(new PropertyCard[] {new DeedCard(titleDeeds[0], "Mediterranean Avenue", 60, 50, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[1], "Baltic Avenue", 60, 50, new int[] {2,10,30,90,160,250}, 0, 0),
-				new UtilityCard(titleDeeds[24], "Reading Railroad", 200, 0, 0),
-				new DeedCard(titleDeeds[2], "Oriental Avenue", 100, 50, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[3], "Vermont Avenue", 100, 50, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[4], "Connecticut Avenue", 120, 50, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[5], "St. Charles Place", 140, 100, new int[] {2,10,30,90,160,250}, 0, 0),
-				new UtilityCard(titleDeeds[22], "Electric Company", 150, 0, 0),
-				new DeedCard(titleDeeds[6], "States Avenue", 140, 100, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[7], "Virginia Avenue", 160, 100, new int[] {2,10,30,90,160,250}, 0, 0),
-				new UtilityCard(titleDeeds[25], "Pennsylvania Railroad", 200, 0, 0),
-				new DeedCard(titleDeeds[8], "St. James Place", 180, 100, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[9], "Tennessee Avenue", 180, 100, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[10], "New York Avenue", 200, 100, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[11], "Kentucky Avenue", 220, 150, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[12], "Indiana Avenue", 220, 150, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[13], "Illinois Avenue", 240, 150, new int[] {2,10,30,90,160,250}, 0, 0),
-				new UtilityCard(titleDeeds[26], "B. & O. Railroad", 200, 0, 0),
-				new DeedCard(titleDeeds[14], "Atlantic Avenue", 260, 150, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[15], "Ventnor Avenue", 260, 150, new int[] {2,10,30,90,160,250}, 0, 0),
-				new UtilityCard(titleDeeds[23], "Water Works", 150, 0, 0),
-				new DeedCard(titleDeeds[16], "Marvin Gardens", 280, 150, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[17], "Pacific Avenue", 300, 200, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[18], "North Carolina Avenue", 300, 200, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[19], "Pennsylvania Avenue", 320, 200, new int[] {2,10,30,90,160,250}, 0, 0),
-				new UtilityCard(titleDeeds[27], "Short Line", 200, 0, 0),
-				new DeedCard(titleDeeds[20], "Park Place", 350, 200, new int[] {2,10,30,90,160,250}, 0, 0),
-				new DeedCard(titleDeeds[21], "Boardwalk", 400, 200, new int[] {2,10,30,90,160,250}, 0, 0)});
+		propertyDeck = new PropertyDeck(new PropertyCard[] {new DeedCard(titleDeeds[0], "Mediterranean Avenue", 60, 50, new int[] {2,10,30,90,160,250}, 1, 0, 0),
+				new DeedCard(titleDeeds[1], "Baltic Avenue", 60, 50, new int[] {2,10,30,90,160,250}, 1, 0, 0),
+				new UtilityCard(titleDeeds[24], "Reading Railroad", 200, 9, 0, 0),
+				new DeedCard(titleDeeds[2], "Oriental Avenue", 100, 50, new int[] {2,10,30,90,160,250}, 2, 0, 0),
+				new DeedCard(titleDeeds[3], "Vermont Avenue", 100, 50, new int[] {2,10,30,90,160,250}, 2, 0, 0),
+				new DeedCard(titleDeeds[4], "Connecticut Avenue", 120, 50, new int[] {2,10,30,90,160,250}, 2, 0, 0),
+				new DeedCard(titleDeeds[5], "St. Charles Place", 140, 100, new int[] {2,10,30,90,160,250}, 3, 0, 0),
+				new UtilityCard(titleDeeds[22], "Electric Company", 150, 10, 0, 0),
+				new DeedCard(titleDeeds[6], "States Avenue", 140, 100, new int[] {2,10,30,90,160,250}, 3, 0, 0),
+				new DeedCard(titleDeeds[7], "Virginia Avenue", 160, 100, new int[] {2,10,30,90,160,250}, 3, 0, 0),
+				new UtilityCard(titleDeeds[25], "Pennsylvania Railroad", 200, 9, 0, 0),
+				new DeedCard(titleDeeds[8], "St. James Place", 180, 100, new int[] {2,10,30,90,160,250}, 4, 0, 0),
+				new DeedCard(titleDeeds[9], "Tennessee Avenue", 180, 100, new int[] {2,10,30,90,160,250}, 4, 0, 0),
+				new DeedCard(titleDeeds[10], "New York Avenue", 200, 100, new int[] {2,10,30,90,160,250}, 4, 0, 0),
+				new DeedCard(titleDeeds[11], "Kentucky Avenue", 220, 150, new int[] {2,10,30,90,160,250}, 5, 0, 0),
+				new DeedCard(titleDeeds[12], "Indiana Avenue", 220, 150, new int[] {2,10,30,90,160,250}, 5, 0, 0),
+				new DeedCard(titleDeeds[13], "Illinois Avenue", 240, 150, new int[] {2,10,30,90,160,250}, 5, 0, 0),
+				new UtilityCard(titleDeeds[26], "B. & O. Railroad", 200, 9, 0, 0),
+				new DeedCard(titleDeeds[14], "Atlantic Avenue", 260, 150, new int[] {2,10,30,90,160,250}, 6, 0, 0),
+				new DeedCard(titleDeeds[15], "Ventnor Avenue", 260, 150, new int[] {2,10,30,90,160,250}, 6, 0, 0),
+				new UtilityCard(titleDeeds[23], "Water Works", 150, 10, 0, 0),
+				new DeedCard(titleDeeds[16], "Marvin Gardens", 280, 150, new int[] {2,10,30,90,160,250}, 6, 0, 0),
+				new DeedCard(titleDeeds[17], "Pacific Avenue", 300, 200, new int[] {2,10,30,90,160,250}, 7, 0, 0),
+				new DeedCard(titleDeeds[18], "North Carolina Avenue", 300, 200, new int[] {2,10,30,90,160,250}, 7, 0, 0),
+				new DeedCard(titleDeeds[19], "Pennsylvania Avenue", 320, 200, new int[] {2,10,30,90,160,250}, 7, 0, 0),
+				new UtilityCard(titleDeeds[27], "Short Line", 200, 9, 0, 0),
+				new DeedCard(titleDeeds[20], "Park Place", 350, 200, new int[] {2,10,30,90,160,250}, 8, 0, 0),
+				new DeedCard(titleDeeds[21], "Boardwalk", 400, 200, new int[] {2,10,30,90,160,250}, 8, 0, 0)});
 		
 		
 	}

@@ -10,20 +10,24 @@ public class PropertyCard extends Card{
 	private String name;
 	private Player owner;
 	private boolean owned, mortgaged;
+	private int group;
 	
-	public PropertyCard(BufferedImage front, String name, int price, int x, int y) {
+	public PropertyCard(BufferedImage front, String name, int price, int group, int x, int y) {
 		super(front, x, y);
 		rentCost=new int[1];
 		rentCost[0]=0;
 		this.name=name;
 		this.price=price;
 		this.mortgageVal=100;
+		
+		this.group=group;
+		
 		owner=null;
 		owned=false;
 		mortgaged=false;
 	}
 	
-	public PropertyCard(BufferedImage front, String name, int price, int houseCost, int[] rentCost, int x, int y) {
+	public PropertyCard(BufferedImage front, String name, int price, int houseCost, int[] rentCost,int group, int x, int y) {
 		super(front, x, y);
 		houses=0;
 		this.rentCost=rentCost;
@@ -32,11 +36,42 @@ public class PropertyCard extends Card{
 		this.houseCost=houseCost;
 		this.mortgageVal=price/2;
 		
+		this.group=group;
+		
 		owner=null;
 		owned=false;
 		mortgaged=false;
 	}
+
 	
+	public int getRentCost() {
+		return rentCost[houses];
+	}
+
+	public void setRentCost(int[] rentCost) {
+		this.rentCost = rentCost;
+	}
+
+	public int getGroup() {
+		return group;
+	}
+
+	public void setGroup(int group) {
+		this.group = group;
+	}
+
+	public void setHouses(int houses) {
+		this.houses = houses;
+	}
+
+	public void setOwner(Player owner) {
+		this.owner = owner;
+	}
+
+	public void setOwned(boolean owned) {
+		this.owned = owned;
+	}
+
 	public void setOwnership(Player player) {
 		owner = player;
 		owned=true;

@@ -2,6 +2,7 @@ package dev.monopoly.game;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.TimeUnit;
 
 public class Card {
 	
@@ -51,6 +52,11 @@ public class Card {
 	}
 	
 	public void flipAnim() {
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		if(back==null)
 			return;
 		boolean cardFlipped = false;
@@ -81,7 +87,11 @@ public class Card {
 			if(halfFlip && cardWidth==initWidth) {
 				cardFlipped=true;
 			}
-			
+		}
+		try {
+			TimeUnit.SECONDS.sleep(5);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	

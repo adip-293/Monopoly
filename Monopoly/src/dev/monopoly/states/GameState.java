@@ -5,10 +5,14 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import dev.monopoly.Handler;
+import dev.monopoly.game.BoardCard;
 import dev.monopoly.game.Bot;
-import dev.monopoly.game.Card;
+import dev.monopoly.game.DeedCard;
 import dev.monopoly.game.Dice;
+import dev.monopoly.game.GameLogs;
 import dev.monopoly.game.Player;
+import dev.monopoly.game.PropertyCard;
+import dev.monopoly.game.UtilityCard;
 import dev.monopoly.gfx.Assets;
 import dev.monopoly.gfx.Utils;
 import dev.monopoly.ui.Button;
@@ -21,26 +25,28 @@ public class GameState extends State {
 
 	private UIManager uiManager, gameplayManager, assetsManager, tradeManager, boardManager, historyManager;
 	/*
-	 * Tabs: Gameplay - Roll Dice, Buy Properties, and Pay Rent Assets - Shows Money
-	 * and Properties -> Mortgage/Unmortgage Trade - Trade with other players Board
-	 * - Reviews Avaialble Properties on Board History - Logs all game operations
+	 * Tabs: Trade - Trade with other players 
+	 * Bots - Roll, Pay Rent, Chance to Buy Property, End Turn
+	 * Bug Testing
 	 */
 	private static Switch gameplay, assets, trade, board, history;
 	private int tab;
 	private Dice diceOne, diceTwo;
 	private ArrayList<Player> playerList;
 	private int playerIndex;
-	boolean initRun;
-	boolean botActive;
-	private Card card;
+	private int repeatRolls;
+	private boolean initRun;
+	private boolean botActive;
+	private boolean runningAnim;
+	private BoardCard currentCard;
 	private Slideshow playerPropertySlideshow, allPropertySlideshow;
+	private boolean playerRolled, payedRent;
 	private Button mortgageButton;
-	private int allPropertySlideshowIndex;
+	private static Button jailbreakButton;
 
 	public GameState(Handler handler) {
 		this.handler = handler;
 		initRun = true;
-		card = new Card(Assets.chanceCards[0], Assets.chanceCards[1], 50, 50, 5);
 
 		uiManager = new UIManager(handler);
 		gameplayManager = new UIManager(handler);
@@ -56,7 +62,6 @@ public class GameState extends State {
 		playerList = new ArrayList<Player>();
 		playerIndex = 0;
 
-		allPropertySlideshowIndex = 0;
 		allPropertySlideshow = new Slideshow(1104, 260, 400, 160, Assets.propertyDeck.getRawDeckImages(), 0.4, 0.5, 0,
 				new Clickable() {
 					@Override
@@ -134,15 +139,193 @@ public class GameState extends State {
 				new Button(1259, 800, 100, 60, Assets.buttonPalette, Assets.kabel48, "Roll", false, new Clickable() {
 					@Override
 					public void onClick() {
+						if(botActive)
+							return;
+						playerRolled = true;
 						if (playerList.get(playerIndex).getRollsLeft() > 0) {
 							diceOne.roll();
 							diceTwo.roll();
 							playerList.get(playerIndex).decrementRollsLeft(1);
-							playerList.get(playerIndex).incrementPosition(1);
-							// playerList.get(playerIndex).incrementPosition(diceOne.getCurrent()+diceTwo.getCurrent());
+							if (playerList.get(playerIndex).getPosition() != -1) {
+								// playerList.get(playerIndex).incrementPosition(30);
+								playerList.get(playerIndex)
+										.incrementPosition(diceOne.getCurrent() + diceTwo.getCurrent());
+								GameLogs.addMessage("Player " + playerList.get(playerIndex).getPlayerNumber()
+										+ " advanced " + (diceOne.getCurrent() + diceTwo.getCurrent()) + " spaces ");
+							}
+
+							if (diceOne.getCurrent() == diceTwo.getCurrent()) {
+								repeatRolls++;
+								playerList.get(playerIndex).incrementRollsLeft(1);
+								if (playerList.get(playerIndex).getPosition() == -1)
+									playerList.get(playerIndex).setPosition(10);
+							} else {
+								repeatRolls = 0;
+							}
+
+							if (playerList.get(playerIndex).getPosition() == 30 || repeatRolls == 3) {
+								playerList.get(playerIndex).setPosition(-1);
+								GameLogs.addMessage(
+										"Player " + playerList.get(playerIndex).getPlayerNumber() + " went to jail");
+							}
+
+							if (playerList.get(playerIndex).getPosition() == 4) {
+								playerList.get(playerIndex).subtractMoney(200);
+								GameLogs.addMessage(
+										"Player " + playerList.get(playerIndex).getPlayerNumber() + " payed taxes");
+							} else if (playerList.get(playerIndex).getPosition() == 38) {
+								playerList.get(playerIndex).subtractMoney(100);
+								GameLogs.addMessage(
+										"Player " + playerList.get(playerIndex).getPlayerNumber() + " payed taxes");
+							}
+
+							if (playerList.get(playerIndex).getPosition() == 2
+									|| playerList.get(playerIndex).getPosition() == 17
+									|| playerList.get(playerIndex).getPosition() == 33) {
+								currentCard = Assets.communityChestDeck.drawFromDeck();
+								GameLogs.addMessage("Player " + playerList.get(playerIndex).getPlayerNumber()
+										+ " drew a community chest card");
+								int id = currentCard.getId();
+								runningAnim = true;
+								currentCard.flipAnim();
+								runningAnim = false;
+								if (id == 1) {
+									playerList.get(playerIndex).addMoney(200);
+								} else if (id == 2) {
+									playerList.get(playerIndex).subtractMoney(50);
+								} else if (id == 3) {
+									playerList.get(playerIndex).addMoney(200);
+									playerList.get(playerIndex).setPosition(0);
+								} else if (id == 4) {
+									playerList.get(playerIndex).addMoney(50);
+								} else if (id == 5) {
+									playerList.get(playerIndex).addJailbreakCards(1);
+								} else if (id == 6) {
+									playerList.get(playerIndex).setPosition(-1);
+								} else if (id == 7) {
+									for (int i = 0; i < playerList.size(); i++) {
+										if (i != playerIndex) {
+											playerList.get(i).subtractMoney(50);
+											playerList.get(playerIndex).addMoney(50);
+										}
+									}
+								} else if (id == 8) {
+									playerList.get(playerIndex).addMoney(100);
+								} else if (id == 9) {
+									playerList.get(playerIndex).addMoney(20);
+								} else if (id == 10) {
+									playerList.get(playerIndex).addMoney(10);
+								} else if (id == 11) {
+									playerList.get(playerIndex).addMoney(100);
+								} else if (id == 12) {
+									playerList.get(playerIndex).subtractMoney(100);
+								} else if (id == 13) {
+									playerList.get(playerIndex).subtractMoney(100);
+								} else if (id == 14) {
+									playerList.get(playerIndex).addMoney(25);
+								} else if (id == 15) {
+									int houses = 0;
+									int hotels = 0;
+									ArrayList<PropertyCard> properties = playerList.get(playerIndex).getProperties();
+									for (int i = 0; i < properties.size(); i++) {
+										if (properties.get(i) instanceof DeedCard) {
+											if (properties.get(i).getHouses() == 5)
+												hotels++;
+											else
+												houses += properties.get(i).getHouses();
+										}
+									}
+									playerList.get(playerIndex).subtractMoney(houses * 40);
+									playerList.get(playerIndex).subtractMoney(hotels * 115);
+								} else if (id == 16) {
+									playerList.get(playerIndex).addMoney(100);
+								} else if (id == 17) {
+									if (playerList.get(playerIndex).getPosition() > 20
+											&& playerList.get(playerIndex).getPosition() < 40) {
+										playerList.get(playerIndex).addMoney(200);
+									}
+									playerList.get(playerIndex).setPosition(20);
+								}
+
+							}
+
+							if (playerList.get(playerIndex).getPosition() == 7
+									|| playerList.get(playerIndex).getPosition() == 22
+									|| playerList.get(playerIndex).getPosition() == 36) {
+								currentCard = Assets.chanceDeck.drawFromDeck();
+								GameLogs.addMessage("Player " + playerList.get(playerIndex).getPlayerNumber()
+										+ " drew a chance card");
+								int id = currentCard.getId();
+								runningAnim = true;
+								currentCard.flipAnim();
+								runningAnim = false;
+								if (id == 1) {
+									playerList.get(playerIndex).setPosition(40);
+									playerList.get(playerIndex).incrementPosition(0);
+								} else if (id == 2) {
+									if (playerList.get(playerIndex).getPosition() > 24)
+										playerList.get(playerIndex).addMoney(200);
+									playerList.get(playerIndex).setPosition(24);
+								} else if (id == 3) {
+									if (playerList.get(playerIndex).getPosition() > 11)
+										playerList.get(playerIndex).addMoney(200);
+									playerList.get(playerIndex).setPosition(11);
+								} else if (id == 4) {
+									playerList.get(playerIndex).addMoney(50);
+								} else if (id == 5) {
+									playerList.get(playerIndex).addJailbreakCards(1);
+								} else if (id == 6) {
+									playerList.get(playerIndex).incrementPosition(-3);
+								} else if (id == 7) {
+									playerList.get(playerIndex).setPosition(-1);
+								} else if (id == 8) {
+									int houses = 0;
+									int hotels = 0;
+									ArrayList<PropertyCard> properties = playerList.get(playerIndex).getProperties();
+									for (int i = 0; i < properties.size(); i++) {
+										if (properties.get(i) instanceof DeedCard) {
+											if (properties.get(i).getHouses() == 5)
+												hotels++;
+											else
+												houses += properties.get(i).getHouses();
+										}
+									}
+									playerList.get(playerIndex).subtractMoney(houses * 25);
+									playerList.get(playerIndex).subtractMoney(hotels * 100);
+								} else if (id == 9) {
+									playerList.get(playerIndex).subtractMoney(15);
+								} else if (id == 10) {
+									if (playerList.get(playerIndex).getPosition() > 5)
+										playerList.get(playerIndex).addMoney(200);
+									playerList.get(playerIndex).setPosition(5);
+								} else if (id == 11) {
+									playerList.get(playerIndex).setPosition(39);
+								} else if (id == 12) {
+									for (int i = 0; i < playerList.size(); i++) {
+										if (i != playerIndex) {
+											playerList.get(playerIndex).subtractMoney(50);
+											playerList.get(i).addMoney(50);
+										}
+									}
+								} else if (id == 13) {
+									playerList.get(playerIndex).addMoney(150);
+								} else if (id == 14) {
+									playerList.get(playerIndex).addMoney(100);
+								} else if (id == 15) {
+									playerList.get(playerIndex).addMoney(25);
+								}
+
+							}
 						}
-						if (diceOne.getCurrent() == diceTwo.getCurrent())
-							playerList.get(playerIndex).incrementRollsLeft(1);
+						int cardIndex = playerList.get(playerIndex).positionToIndex();
+						if (cardIndex == -1 || !Assets.propertyDeck.cardInUse(cardIndex)
+								|| (Assets.propertyDeck.getCard(cardIndex).getOwner() == playerList.get(playerIndex))
+								|| Assets.propertyDeck.getCard(cardIndex).isMortgaged()
+								|| Assets.propertyDeck.getCard(cardIndex).isMortgaged()
+								|| Assets.propertyDeck.getCard(cardIndex).getOwner().getPosition() == -1)
+							payedRent = true;
+						else
+							payedRent = false;
 					}
 				}));
 
@@ -150,7 +333,58 @@ public class GameState extends State {
 				false, new Clickable() {
 					@Override
 					public void onClick() {
+						if(botActive)
+							return;
+						if (playerList.get(playerIndex).getPosition() == -1)
+							return;
+						if (!payedRent) {
+							// Check for Mortgaged Cards
+							int cardIndex = playerList.get(playerIndex).positionToIndex();
+							int cardGroup = Assets.propertyDeck.getCard(cardIndex).getGroup();
+							int rent = 0;
+							if (cardIndex != -1 && Assets.propertyDeck.cardInUse(cardIndex)
+									&& !Assets.propertyDeck.getCard(cardIndex).isMortgaged()) {
+								if (Assets.propertyDeck.getCard(cardIndex) instanceof DeedCard) {
+									rent = Assets.propertyDeck.getCard(cardIndex).getRentCost();
 
+									if (Assets.propertyDeck.getCard(cardIndex).getOwner()
+											.getGroups(cardGroup - 1) == Assets.propertyDeck.getCard(cardIndex)
+													.getOwner().getGroupCapacity(cardGroup - 1))
+										rent *= 2;
+
+									Assets.propertyDeck.getCard(cardIndex).getOwner().addMoney(rent);
+									playerList.get(playerIndex).subtractMoney(rent);
+									payedRent = true;
+								} else if (Assets.propertyDeck.getCard(cardIndex) instanceof UtilityCard) {
+									if (cardGroup == 9) {
+
+										rent = 25 * Assets.propertyDeck.getCard(cardIndex).getOwner()
+												.getGroups(cardGroup - 1);
+
+										Assets.propertyDeck.getCard(cardIndex).getOwner().addMoney(rent);
+										playerList.get(playerIndex).subtractMoney(rent);
+										GameLogs.addMessage("Player " + playerList.get(playerIndex).getPlayerNumber()
+												+ " payed " + rent + " to "
+												+ Assets.propertyDeck.getCard(cardIndex).getOwner().getPlayerNumber());
+										payedRent = true;
+									} else if (cardGroup == 10) {
+										if (Assets.propertyDeck.getCard(cardIndex).getOwner()
+												.getGroups(cardGroup - 1) == Assets.propertyDeck.getCard(cardIndex)
+														.getOwner().getGroupCapacity(cardGroup - 1))
+											rent = (diceOne.getCurrent() + diceTwo.getCurrent()) * 10;
+										else
+											rent = (diceOne.getCurrent() + diceTwo.getCurrent()) * 4;
+
+										Assets.propertyDeck.getCard(cardIndex).getOwner().addMoney(rent);
+										playerList.get(playerIndex).subtractMoney(rent);
+										GameLogs.addMessage("Player " + playerList.get(playerIndex).getPlayerNumber()
+												+ " payed " + rent + " to "
+												+ Assets.propertyDeck.getCard(cardIndex).getOwner().getPlayerNumber());
+										payedRent = true;
+									}
+								}
+							}
+						}
 					}
 				}));
 
@@ -158,14 +392,24 @@ public class GameState extends State {
 				false, new Clickable() {
 					@Override
 					public void onClick() {
-						int cardIndex = playerList.get(playerIndex).positionToIndex();
-						if (cardIndex != -1 && !Assets.propertyDeck.cardInUse(cardIndex)) {
-							playerList.get(playerIndex)
-									.subtractMoney(Assets.propertyDeck.getCard(cardIndex).getPrice());
-							playerList.get(playerIndex).addProperty(Assets.propertyDeck.getCard(cardIndex));
-							Assets.propertyDeck.getCard(cardIndex).setOwnership(playerList.get(playerIndex));
-							Assets.propertyDeck.setCardInUse(cardIndex);
-							playerPropertySlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+						if(botActive)
+							return;
+						if (playerList.get(playerIndex).getPosition() == -1)
+							return;
+						if (playerRolled) {
+							int cardIndex = playerList.get(playerIndex).positionToIndex();
+							if (cardIndex == -1)
+								return;
+							if (!Assets.propertyDeck.cardInUse(cardIndex)) {
+								playerList.get(playerIndex)
+										.subtractMoney(Assets.propertyDeck.getCard(cardIndex).getPrice());
+								playerList.get(playerIndex).addProperty(Assets.propertyDeck.getCard(cardIndex));
+								Assets.propertyDeck.getCard(cardIndex).setOwnership(playerList.get(playerIndex));
+								Assets.propertyDeck.setCardInUse(cardIndex);
+								GameLogs.addMessage("Player " + playerList.get(playerIndex).getPlayerNumber()
+										+ " purchased " + Assets.propertyDeck.getCard(cardIndex).getName());
+								playerPropertySlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+							}
 						}
 					}
 				}));
@@ -173,16 +417,31 @@ public class GameState extends State {
 		gameplayManager.addObject(new Button(1000, 910, 608, 80, Assets.nextButtons, new Clickable() {
 			@Override
 			public void onClick() {
-				if (playerList.get(playerIndex).getRollsLeft() == 0) {
-					playerIndex++;
-					if (playerIndex > playerList.size() - 1) {
-						playerIndex = 0;
+				if(botActive)
+					return;
+				int cardIndex = playerList.get(playerIndex).positionToIndex();
+				if (cardIndex == -1 || !Assets.propertyDeck.cardInUse(cardIndex)
+						|| (Assets.propertyDeck.getCard(cardIndex).getOwner() == playerList.get(playerIndex))
+						|| Assets.propertyDeck.getCard(cardIndex).isMortgaged()
+						|| Assets.propertyDeck.getCard(cardIndex).getOwner().getPosition() == -1)
+					payedRent = true;
+				if (payedRent) {
+					repeatRolls = 0;
+					playerRolled = false;
+					payedRent = false;
+					GameLogs.addMessage(
+							"Player " + playerList.get(playerIndex).getPlayerNumber() + " ended their turn");
+					if (playerList.get(playerIndex).getRollsLeft() == 0) {
+						playerIndex++;
+						if (playerIndex > playerList.size() - 1) {
+							playerIndex = 0;
+						}
+						if (playerList.get(playerIndex).getProperties().size() == 0)
+							playerPropertySlideshow.setImages(null);
+						else
+							playerPropertySlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+						playerList.get(playerIndex).incrementRollsLeft(1);
 					}
-					if (playerList.get(playerIndex).getProperties().size() == 0)
-						playerPropertySlideshow.setImages(null);
-					else
-						playerPropertySlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
-					playerList.get(playerIndex).incrementRollsLeft(1);
 				}
 			}
 		}));
@@ -191,19 +450,49 @@ public class GameState extends State {
 				new Clickable() {
 					@Override
 					public void onClick() {
+						if (playerList.get(playerIndex).getPosition() == -1)
+							return;
 						boolean isMortgaged = playerList.get(playerIndex).getProperties()
 								.get(playerPropertySlideshow.getImageIndex()).isMortgaged();
-						playerList.get(playerIndex).getProperties().get(playerPropertySlideshow.getImageIndex())
-								.setMortgaged(!isMortgaged);
 
-						if (isMortgaged) {
+						if (isMortgaged && playerList.get(playerIndex).getProperties()
+								.get(playerPropertySlideshow.getImageIndex()).getHouses() == 0) {// Unmortgaging
+							playerList.get(playerIndex).getProperties().get(playerPropertySlideshow.getImageIndex())
+									.setMortgaged(!isMortgaged);
 							playerList.get(playerIndex).subtractMoney(playerList.get(playerIndex).getProperties()
 									.get(playerPropertySlideshow.getImageIndex()).getMortgageVal());
 							mortgageButton.setText("Mortgage");
-						} else {
+							GameLogs.addMessage("Player " + playerList.get(playerIndex).getPlayerNumber()
+									+ " unmortgaged " + playerList.get(playerIndex).getProperties()
+											.get(playerPropertySlideshow.getImageIndex()).getName());
+						} else if (playerList.get(playerIndex).getProperties()
+								.get(playerPropertySlideshow.getImageIndex()).getHouses() == 0) {// Mortgaging
+							playerList.get(playerIndex).getProperties().get(playerPropertySlideshow.getImageIndex())
+									.setMortgaged(!isMortgaged);
 							playerList.get(playerIndex).addMoney(playerList.get(playerIndex).getProperties()
 									.get(playerPropertySlideshow.getImageIndex()).getMortgageVal());
 							mortgageButton.setText("Unmortgage");
+							GameLogs.addMessage("Player " + playerList.get(playerIndex).getPlayerNumber()
+									+ " mortgaged " + playerList.get(playerIndex).getProperties()
+											.get(playerPropertySlideshow.getImageIndex()).getName());
+						}
+					}
+				});
+
+		jailbreakButton = new Button(1059, 920, 500, 60, Assets.buttonPalette, Assets.kabel48,
+				"Get Out of Jail (Money)", false, new Clickable() {
+					@Override
+					public void onClick() {
+						if (playerList.get(playerIndex).getPosition() == -1) {
+							GameLogs.addMessage(
+									"Player " + playerList.get(playerIndex).getPlayerNumber() + " got out of jail");
+							if (playerList.get(playerIndex).getJailbreakCards() >= 1) {
+								playerList.get(playerIndex).useJailbreakCards();
+								playerList.get(playerIndex).setPosition(10);
+							} else {
+								playerList.get(playerIndex).subtractMoney(50);
+								playerList.get(playerIndex).setPosition(10);
+							}
 						}
 					}
 				});
@@ -212,8 +501,43 @@ public class GameState extends State {
 				new Clickable() {
 					@Override
 					public void onClick() {
-						playerList.get(playerIndex).getProperties()
-						.get(playerPropertySlideshow.getImageIndex()).addHouses(1);
+						if (playerList.get(playerIndex).getPosition() == -1)
+							return;
+						if (!playerList.get(playerIndex).getProperties().get(playerPropertySlideshow.getImageIndex())
+								.isMortgaged()
+								&& playerList.get(playerIndex).getProperties()
+										.get(playerPropertySlideshow.getImageIndex()) instanceof DeedCard) {
+							PropertyCard thisCard = playerList.get(playerIndex).getProperties()
+									.get(playerPropertySlideshow.getImageIndex());
+
+							thisCard.addHouses(1);
+							playerList.get(playerIndex).subtractMoney(thisCard.getHouseCost());
+
+							int cardGroup = thisCard.getGroup();
+
+							if (playerList.get(playerIndex).getGroups(cardGroup - 1) == playerList.get(playerIndex)
+									.getGroupCapacity(cardGroup - 1) && thisCard.getHouses() <= 5) {
+								PropertyCard[] cardsInGroup = playerList.get(playerIndex).getCardbyGroup(cardGroup);
+								int absoluteHouseDif = 0;
+								for (int i = 0; i < cardsInGroup.length - 1; i++) {
+									int dif = Math.abs(cardsInGroup[i].getHouses() - cardsInGroup[i + 1].getHouses());
+									if (dif > absoluteHouseDif)
+										absoluteHouseDif = dif;
+								}
+								if (absoluteHouseDif > 1) {
+									thisCard.removeHouses(1);
+									playerList.get(playerIndex).addMoney(thisCard.getHouseCost());
+								} else {
+									GameLogs.addMessage("Player " + playerList.get(playerIndex).getPlayerNumber()
+											+ " bought a house on " + thisCard.getName());
+								}
+
+							} else {
+								thisCard.removeHouses(1);
+								playerList.get(playerIndex).addMoney(thisCard.getHouseCost());
+							}
+
+						}
 					}
 				}));
 
@@ -221,8 +545,42 @@ public class GameState extends State {
 				false, new Clickable() {
 					@Override
 					public void onClick() {
-						playerList.get(playerIndex).getProperties()
-						.get(playerPropertySlideshow.getImageIndex()).removeHouses(1);
+						if (playerList.get(playerIndex).getPosition() == -1)
+							return;
+						if (!playerList.get(playerIndex).getProperties().get(playerPropertySlideshow.getImageIndex())
+								.isMortgaged()
+								&& playerList.get(playerIndex).getProperties()
+										.get(playerPropertySlideshow.getImageIndex()) instanceof DeedCard) {
+							PropertyCard thisCard = playerList.get(playerIndex).getProperties()
+									.get(playerPropertySlideshow.getImageIndex());
+
+							thisCard.removeHouses(1);
+							playerList.get(playerIndex).addMoney(thisCard.getHouseCost() / 2);
+
+							int cardGroup = thisCard.getGroup();
+
+							if (playerList.get(playerIndex).getGroups(cardGroup - 1) == playerList.get(playerIndex)
+									.getGroupCapacity(cardGroup - 1) && thisCard.getHouses() >= 0) {
+								PropertyCard[] cardsInGroup = playerList.get(playerIndex).getCardbyGroup(cardGroup);
+								int absoluteHouseDif = 0;
+								for (int i = 0; i < cardsInGroup.length - 1; i++) {
+									int dif = Math.abs(cardsInGroup[i].getHouses() - cardsInGroup[i + 1].getHouses());
+									if (dif > absoluteHouseDif)
+										absoluteHouseDif = dif;
+								}
+								if (absoluteHouseDif > 1) {
+									thisCard.addHouses(1);
+									playerList.get(playerIndex).subtractMoney(thisCard.getHouseCost() / 2);
+								} else {
+									GameLogs.addMessage("Player " + playerList.get(playerIndex).getPlayerNumber()
+											+ " sold a house on " + thisCard.getName());
+								}
+
+							} else {
+								thisCard.addHouses(1);
+								playerList.get(playerIndex).subtractMoney(thisCard.getHouseCost() / 2);
+							}
+						}
 					}
 				}));
 
@@ -238,6 +596,7 @@ public class GameState extends State {
 		assetsManager.addObject(board);
 		assetsManager.addObject(history);
 		assetsManager.addObject(mortgageButton);
+		assetsManager.addObject(jailbreakButton);
 		assetsManager.addObject(playerPropertySlideshow);
 
 		tradeManager.addObject(gameplay);
@@ -277,6 +636,10 @@ public class GameState extends State {
 			} else if (tab == 2) {
 				handler.getMouseManager().setUIManager(assetsManager);
 				assetsManager.update();
+				if (playerList.get(playerIndex).getJailbreakCards() > 0)
+					jailbreakButton.setText("Get Out of Jail (Card)");
+				else
+					jailbreakButton.setText("Get Out of Jail (Money)");
 			} else if (tab == 3) {
 				handler.getMouseManager().setUIManager(tradeManager);
 				tradeManager.update();
@@ -297,6 +660,10 @@ public class GameState extends State {
 				playerList.get(i + 1).setPlaceModifier(playerList.get(i).getPlaceModifier() + 2);
 			}
 		}
+		if(playerList.get(playerIndex) instanceof Bot)
+			botActive=true;
+		else
+			botActive=false;
 
 	}
 
@@ -322,8 +689,6 @@ public class GameState extends State {
 
 				g.fillRect(1164, 345, 290, 70);
 
-				card.render(g);
-
 				if (playerIndex < handler.getGame().getNumPlayers()) {
 					Utils.drawString(g, "Player " + (playerIndex + 1), 1304, 110, true, Color.black, Assets.kabel48);
 					g.drawImage(Assets.gamePieces[handler.getGame().getPlayerIcon()[playerIndex]], 1249, 140, 120, 120,
@@ -347,54 +712,71 @@ public class GameState extends State {
 				g.fillRect(1164, 675, 290, 70);
 				g.fillRect(1179, 755, 260, 70);
 				g.fillRect(1179, 835, 260, 70);
+				g.fillRect(1054, 915, 510, 70);
 
 				assetsManager.render(g);
+
+				jailbreakButton.render(g);
 
 				Utils.drawString(g, "Money: $" + playerList.get(playerIndex).getMoney(), 1304, 110, true, Color.black,
 						Assets.kabel48);
 				Utils.drawString(g, "Properties", 1304, 210, true, Color.black, Assets.kabel48);
-				
-				if (playerList.get(playerIndex).getProperties().get(playerPropertySlideshow.getImageIndex()).isMortgaged())
-					Utils.drawString(g, "Mortgaged", 1304, 610, true, Color.black, Assets.kabel24);
-				else
-					Utils.drawString(g, "Unmortgaged", 1304, 610, true, Color.black, Assets.kabel24);
-				Utils.drawString(g, "Houses: " + Assets.propertyDeck.getCard(allPropertySlideshowIndex).getHouses(),
-						1304, 640, true, Color.black, Assets.kabel24);
+				if (playerList.get(playerIndex).getProperties().size() != 0) {
+					if (playerList.get(playerIndex).getProperties().get(playerPropertySlideshow.getImageIndex())
+							.isMortgaged())
+						Utils.drawString(g, "Mortgaged", 1304, 610, true, Color.black, Assets.kabel24);
+					else
+						Utils.drawString(g, "Unmortgaged", 1304, 610, true, Color.black, Assets.kabel24);
+					Utils.drawString(g,
+							"Houses: "
+									+ Assets.propertyDeck.getCard(playerPropertySlideshow.getImageIndex()).getHouses(),
+							1304, 640, true, Color.black, Assets.kabel24);
+				}
 			} else if (tab == 3) {
 				tradeManager.render(g);
 			} else if (tab == 4) {
 				boardManager.render(g);
 
 				Utils.drawString(g, "Board Info", 1304, 120, true, Color.black, Assets.kabel48);
-				Utils.drawString(g, "Price: $" + Assets.propertyDeck.getCard(allPropertySlideshowIndex).getPrice(),
-						1304, 530, true, Color.black, Assets.kabel24);
+				Utils.drawString(g,
+						"Price: $" + Assets.propertyDeck.getCard(allPropertySlideshow.getImageIndex()).getPrice(), 1304,
+						530, true, Color.black, Assets.kabel24);
 
-				if (Assets.propertyDeck.getCard(allPropertySlideshowIndex).getOwner() == null)
+				if (Assets.propertyDeck.getCard(allPropertySlideshow.getImageIndex()).getOwner() == null)
 					Utils.drawString(g, "Owner: None", 1304, 560, true, Color.black, Assets.kabel24);
-				else if (Assets.propertyDeck.getCard(allPropertySlideshowIndex).getOwner() instanceof Bot)
-					Utils.drawString(g, "Owner: Bot "
-							+ Assets.propertyDeck.getCard(allPropertySlideshowIndex).getOwner().getPlayerNumber(), 1304,
-							560, true, Color.black, Assets.kabel24);
+				else if (Assets.propertyDeck.getCard(allPropertySlideshow.getImageIndex()).getOwner() instanceof Bot)
+					Utils.drawString(g, "Owner: Bot " + Assets.propertyDeck
+							.getCard(allPropertySlideshow.getImageIndex()).getOwner().getPlayerNumber(), 1304, 560,
+							true, Color.black, Assets.kabel24);
 				else
-					Utils.drawString(g, "Owner: Player "
-							+ Assets.propertyDeck.getCard(allPropertySlideshowIndex).getOwner().getPlayerNumber(), 1304,
-							560, true, Color.black, Assets.kabel24);
+					Utils.drawString(g, "Owner: Player " + Assets.propertyDeck
+							.getCard(allPropertySlideshow.getImageIndex()).getOwner().getPlayerNumber(), 1304, 560,
+							true, Color.black, Assets.kabel24);
 
-				if (Assets.propertyDeck.getCard(allPropertySlideshowIndex).isMortgaged())
+				if (Assets.propertyDeck.getCard(allPropertySlideshow.getImageIndex()).isMortgaged())
 					Utils.drawString(g, "Mortgaged", 1304, 590, true, Color.black, Assets.kabel24);
 				else
 					Utils.drawString(g, "Unmortgaged", 1304, 590, true, Color.black, Assets.kabel24);
 
-				Utils.drawString(g, "Houses: " + Assets.propertyDeck.getCard(allPropertySlideshowIndex).getHouses(),
+				Utils.drawString(g,
+						"Houses: " + Assets.propertyDeck.getCard(allPropertySlideshow.getImageIndex()).getHouses(),
 						1304, 620, true, Color.black, Assets.kabel24);
 			} else if (tab == 5) {
 				historyManager.render(g);
+				g.setColor(Color.black);
+				g.fillRect(1049, 130, 510, 810);
+				g.setColor(Color.white);
+				g.fillRect(1054, 135, 500, 800);
+				GameLogs.render(g, 1060, 150);
 			}
 
 			for (Player p : playerList)
 				p.render(g);
 
 			uiManager.render(g);
+
+			if (runningAnim)
+				currentCard.render(g);
 		}
 	}
 
