@@ -89,7 +89,7 @@ public class Card {
 			}
 		}
 		try {
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(5);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

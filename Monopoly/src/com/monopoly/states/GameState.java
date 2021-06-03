@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.JOptionPane;
+
 import com.monopoly.Handler;
 import com.monopoly.game.Bot;
 import com.monopoly.game.Dice;
@@ -476,7 +478,6 @@ public class GameState extends State {
 				false, new Clickable() {
 					@Override
 					public void onClick() {
-						playerList.get(playerIndex).subtractMoney(500);
 						if (botActive)
 							return;
 						if (playerList.get(playerIndex).getPosition() == -1)
@@ -944,7 +945,13 @@ public class GameState extends State {
 		}
 		
 		if(activePlayers==1) {
-			
+			Player winner=null;
+			for(Player p : playerList) {
+				if(!p.isInactive())
+					winner=p;
+			}
+			JOptionPane.showMessageDialog(handler.getGame().getDisplay().getFrame(), "Player " + winner.getPlayerNumber() + " Wins");
+			System.exit(0);
 		}
 
 	}
