@@ -67,16 +67,16 @@ public class Monopoly implements Runnable{
 		
 		handler = new Handler(this);
 		
-		numPlayers=2;
+		numPlayers=0;
 		playerIcon = new int[4];
-		playerIcon[0]=0;
-		playerIcon[1]=1;
+		playerIcon[0]=-1;
+		playerIcon[1]=-11;
 		playerIcon[2]=-1;
 		playerIcon[3]=-1;
 		
-		numBots=1;
+		numBots=0;
 		botIcon = new int[4];
-		botIcon[0]=2;
+		botIcon[0]=-1;
 		botIcon[1]=-1;
 		botIcon[2]=-1;
 		botIcon[3]=-1;
@@ -86,7 +86,7 @@ public class Monopoly implements Runnable{
 		setupState = new SetupState(handler);
 		gameState = new GameState(handler);
 		
-		State.setState(gameState);
+		State.setState(menuState);
 	}
 	
 	private void update() {
