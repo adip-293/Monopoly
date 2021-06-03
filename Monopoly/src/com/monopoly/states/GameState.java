@@ -844,11 +844,13 @@ public class GameState extends State {
 		}
 
 		for (int i = 0; i < playerList.size() - 1; i++) {
-			playerList.get(i).update();
-			if (i == 0)
-				playerList.get(i).setPlaceModifier(0);
-			if (playerList.get(i).getPosition() == playerList.get(i + 1).getPosition()) {
-				playerList.get(i + 1).setPlaceModifier(playerList.get(i).getPlaceModifier() + 2);
+			if(playerList.get(i).isInactive()) {
+				playerList.get(i).update();
+				if (i == 0)
+					playerList.get(i).setPlaceModifier(0);
+				if (playerList.get(i).getPosition() == playerList.get(i + 1).getPosition()) {
+					playerList.get(i + 1).setPlaceModifier(playerList.get(i).getPlaceModifier() + 2);
+				}
 			}
 		}
 
@@ -988,8 +990,10 @@ public class GameState extends State {
 				GameLogs.render(g, 1060, 150);
 			}
 
-			for (Player p : playerList)
-				p.render(g);
+			for (Player p : playerList) {
+				if(!p.isInactive())
+					p.render(g);
+			}
 
 			uiManager.render(g);
 
