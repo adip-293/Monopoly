@@ -596,9 +596,9 @@ public class GameState extends State {
 						playerList.get(playerIndex).incrementRollsLeft(1);
 						
 						if(playerIndex != 0 && playerList.get(playerIndex-1).getMoney()<0) {
-							playerList.remove(playerIndex-1);
+							playerList.get(playerIndex-1).setInactive(true);
 						}else if(playerIndex == 0 && playerList.get(playerList.size()-1).getMoney()<0){
-							playerList.remove(playerList.size()-1);
+							playerList.get(playerList.size()-1).setInactive(true);
 						}
 					}
 					for (int i = 0; i < playerList.size(); i++) {
@@ -864,6 +864,13 @@ public class GameState extends State {
 				if (roll == 4)
 					buyPropertyEvent();
 				nextEvent();
+			}
+		}
+		
+		if(playerList.get(playerIndex).isInactive()) {
+			playerIndex++;
+			if (playerIndex > playerList.size() - 1) {
+				playerIndex = 0;
 			}
 		}
 
