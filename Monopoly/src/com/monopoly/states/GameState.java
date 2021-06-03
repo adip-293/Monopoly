@@ -892,7 +892,7 @@ public class GameState extends State {
 				g.fillRect(1164, 345, 290, 70);
 
 				if (playerIndex < handler.getGame().getNumPlayers()) {
-					Utils.drawString(g, "Player " + (playerIndex + 1), 1304, 110, true, Color.black, Assets.kabel48);
+					Utils.drawString(g, "Player " + playerList.get(playerIndex).getPlayerNumber(), 1304, 110, true, Color.black, Assets.kabel48);
 					g.drawImage(Assets.gamePieces[handler.getGame().getPlayerIcon()[playerIndex]], 1249, 140, 120, 120,
 							null);
 				} else if (playerIndex < handler.getGame().getNumPlayers() + handler.getGame().getNumBots()) {
