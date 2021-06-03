@@ -91,8 +91,8 @@ public class Player {
 		for(int i=propertyOut.size()-1;i>=0;i--) {
 			propertyOut.get(i).setOwner(in);
 			propertyOut.get(i).setTrading(false);
-			out.removeProperty(propertyOut.get(i));
 			in.addProperty(propertyOut.get(i));
+			out.removeProperty(propertyOut.get(i));
 		}
 	}
 	

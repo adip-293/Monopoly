@@ -34,7 +34,7 @@ public class GameState extends State {
 	private Dice diceOne, diceTwo;
 	private ArrayList<Player> playerList;
 	private ArrayList<PropertyCard> tradeOutList, tradeInList;
-	private int playerIndex;
+	private int playerIndex, activePlayers;
 	private int repeatRolls;
 	private boolean initRun;
 	private boolean botActive;
@@ -501,9 +501,16 @@ public class GameState extends State {
 									
 									if(playerList.get(playerIndex).getMoney()<0) {
 										playerList.get(playerIndex).setInactive(true);
+										playerList.get(playerIndex).eliminate(playerList.get(playerIndex), Assets.propertyDeck.getCard(cardIndex).getOwner(), playerList.get(playerIndex).getProperties());
+										if(playerList.get(playerIndex).getPropertyImages().length!=0) {
+											playerPropertySlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+											tradeOutSlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+										}else {
+											playerPropertySlideshow.setImages(null);
+											tradeOutSlideshow.setImages(null);
+										}
 										GameLogs.addMessage(
 												"Player " + Assets.propertyDeck.getCard(cardIndex).getOwner() + " bankrupted Player " + playerList.get(playerIndex).getPlayerNumber());
-										playerList.get(playerIndex).eliminate(playerList.get(playerIndex), Assets.propertyDeck.getCard(cardIndex).getOwner(), playerList.get(playerIndex).getProperties());
 									}
 									
 									payedRent = true;
@@ -534,7 +541,19 @@ public class GameState extends State {
 												+ Assets.propertyDeck.getCard(cardIndex).getOwner().getPlayerNumber());
 										payedRent = true;
 									}
-									
+									if(playerList.get(playerIndex).getMoney()<0) {
+										playerList.get(playerIndex).setInactive(true);
+										playerList.get(playerIndex).eliminate(playerList.get(playerIndex), Assets.propertyDeck.getCard(cardIndex).getOwner(), playerList.get(playerIndex).getProperties());
+										if(playerList.get(playerIndex).getPropertyImages().length!=0) {
+											playerPropertySlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+											tradeOutSlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+										}else {
+											playerPropertySlideshow.setImages(null);
+											tradeOutSlideshow.setImages(null);
+										}
+										GameLogs.addMessage(
+												"Player " + Assets.propertyDeck.getCard(cardIndex).getOwner() + " bankrupted Player " + playerList.get(playerIndex).getPlayerNumber());
+									}
 								}
 							}
 						}
@@ -614,10 +633,18 @@ public class GameState extends State {
 							while(i == playerIndex-1) {
 								i = (int) (Math.random()*playerList.size());
 							}
+						
+							playerList.get(playerIndex-1).eliminate(playerList.get(playerIndex-1), playerList.get(i), playerList.get(playerIndex-1).getProperties());
+							if(playerList.get(playerIndex).getPropertyImages().length!=0) {
+								playerPropertySlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+								tradeOutSlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+							}else {
+								playerPropertySlideshow.setImages(null);
+								tradeOutSlideshow.setImages(null);
+							}
 							GameLogs.addMessage(
 									"Player " + playerList.get(i).getPlayerNumber() + " inhereted Player " + playerList.get(playerIndex-1).getPlayerNumber() + "'s assets");
-							System.out.print("yum: " + playerList.get(playerIndex-1).getProperties().size());
-							playerList.get(playerIndex-1).eliminate(playerList.get(playerIndex-1), playerList.get(i), playerList.get(playerIndex-1).getProperties());
+							
 						}else if(playerIndex == 0 && playerList.get(playerList.size()-1).getMoney()<0){
 							playerList.get(playerList.size()-1).setInactive(true);
 							
@@ -625,8 +652,15 @@ public class GameState extends State {
 							while(i == playerList.size()-1) {
 								i = (int) (Math.random()*playerList.size());
 							}
+							
 							playerList.get(playerList.size()-1).eliminate(playerList.get(playerList.size()-1), playerList.get(i), playerList.get(playerList.size()-1).getProperties());
-							System.out.print("yum: " + playerList.get(playerList.size()-1).getProperties().size());
+							if(playerList.get(playerIndex).getPropertyImages().length!=0) {
+								playerPropertySlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+								tradeOutSlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+							}else {
+								playerPropertySlideshow.setImages(null);
+								tradeOutSlideshow.setImages(null);
+							}
 							GameLogs.addMessage(
 									"Player " + playerList.get(i).getPlayerNumber() + " inhereted Player " + playerList.get(playerList.size()-1).getPlayerNumber() + "'s assets");
 						}
@@ -903,6 +937,15 @@ public class GameState extends State {
 			}
 		}
 	
+		activePlayers=0;
+		for(Player p: playerList) {
+			if(!p.isInactive())
+				activePlayers++;
+		}
+		
+		if(activePlayers==1) {
+			
+		}
 
 	}
 
