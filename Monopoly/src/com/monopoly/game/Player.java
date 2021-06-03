@@ -17,6 +17,7 @@ public class Player {
 	private int rollsLeft;
 	private int position;
 	private int jailbreakCards;
+	private boolean inactive;
 	private int[] xPos = new int[] 	{0, 806, 725, 645, 564, 484, 404, 323, 243, 163, 0,  32,  32,  32,  32,  32,  32,  32,  32,  32, 0, 163, 243, 323, 404, 484, 564, 645, 725, 806, 936, 936, 936, 936, 936, 936, 936, 936, 936, 936};
 	private int[] yPos = new int[]  {0, 936, 936, 936, 936, 936, 936, 936, 936, 936, 0, 805, 725, 645, 565, 484, 403, 322, 242, 162, 0,  32,  32,  32,  32,  32,  32,  32,  32,  32,  32, 162, 242, 322, 403, 484, 565, 645, 725, 805};
 	private int[] goPos = new int[] {884, 884, 936, 884, 884, 936, 936, 936};
@@ -36,6 +37,7 @@ public class Player {
 		this.height=height;
 		this.icon=icon;
 		this.money=money;
+		this.inactive=false;
 		position=0;
 		rollsLeft=0;
 		placeModifier=0;
@@ -145,12 +147,22 @@ public class Player {
 	}
 	
 	//Getters and Setters
+	
+	
 	public void clearTrades() {
 		for(PropertyCard c : properties) {
 			c.setTrading(false);
 		}
 	}
 	
+	public boolean isInactive() {
+		return inactive;
+	}
+
+	public void setInactive(boolean inactive) {
+		this.inactive = inactive;
+	}
+
 	public void setPosition(int pos) {
 		position = pos;
 	}
