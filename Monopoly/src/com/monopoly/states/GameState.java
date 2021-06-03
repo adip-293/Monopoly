@@ -598,8 +598,12 @@ public class GameState extends State {
 						
 						if(playerIndex != 0 && playerList.get(playerIndex-1).getMoney()<0) {
 							playerList.get(playerIndex-1).setInactive(true);
+							GameLogs.addMessage(
+									"Player " + playerList.get(playerIndex-1).getPlayerNumber() + " went bankrupt because of their own incompetence");
 						}else if(playerIndex == 0 && playerList.get(playerList.size()-1).getMoney()<0){
 							playerList.get(playerList.size()-1).setInactive(true);
+							GameLogs.addMessage(
+									"Player " + playerList.get(playerList.size()-1).getPlayerNumber() + " went bankrupt because of their own incompetence");
 						}
 					}
 					for (int i = 0; i < playerList.size(); i++) {
