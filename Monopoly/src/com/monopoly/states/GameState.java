@@ -615,7 +615,7 @@ public class GameState extends State {
 							}
 							GameLogs.addMessage(
 									"Player " + playerList.get(i).getPlayerNumber() + " inhereted Player " + playerList.get(playerIndex-1).getPlayerNumber() + "'s assets");
-							playerList.get(playerIndex).eliminate(playerList.get(playerIndex-1), playerList.get(i), playerList.get(playerIndex-1).getProperties());
+							playerList.get(playerIndex-1).eliminate(playerList.get(playerIndex-1), playerList.get(i), playerList.get(playerIndex-1).getProperties());
 						}else if(playerIndex == 0 && playerList.get(playerList.size()-1).getMoney()<0){
 							playerList.get(playerList.size()-1).setInactive(true);
 							
@@ -623,7 +623,7 @@ public class GameState extends State {
 							while(i == playerIndex-1) {
 								i = (int) (Math.random()*playerList.size());
 							}
-							
+							playerList.get(playerList.size()-1).eliminate(playerList.get(playerList.size()-1), playerList.get(i), playerList.get(playerList.size()-1).getProperties());
 							GameLogs.addMessage(
 									"Player " + playerList.get(i).getPlayerNumber() + " inhereted Player " + playerList.get(playerIndex-1).getPlayerNumber() + "'s assets");
 						}
