@@ -476,7 +476,7 @@ public class GameState extends State {
 				false, new Clickable() {
 					@Override
 					public void onClick() {
-						playerList.get(playerIndex).subtractMoney(100);
+						playerList.get(playerIndex).subtractMoney(500);
 						if (botActive)
 							return;
 						if (playerList.get(playerIndex).getPosition() == -1)
@@ -843,14 +843,18 @@ public class GameState extends State {
 			}
 		}
 
+
+			if(playerList.get(playerIndex).isInactive()) {
+				skipTurn();
+			}
+		
+		
 		for (int i = 0; i < playerList.size() - 1; i++) {
-			if(playerList.get(i).isInactive()) {
-				playerList.get(i).update();
-				if (i == 0)
-					playerList.get(i).setPlaceModifier(0);
-				if (playerList.get(i).getPosition() == playerList.get(i + 1).getPosition()) {
-					playerList.get(i + 1).setPlaceModifier(playerList.get(i).getPlaceModifier() + 2);
-				}
+			playerList.get(i).update();
+			if (i == 0)
+				playerList.get(i).setPlaceModifier(0);
+			if (playerList.get(i).getPosition() == playerList.get(i + 1).getPosition()) {
+				playerList.get(i + 1).setPlaceModifier(playerList.get(i).getPlaceModifier() + 2);
 			}
 		}
 
@@ -869,13 +873,7 @@ public class GameState extends State {
 				nextEvent();
 			}
 		}
-		
-		if(playerList.get(playerIndex).isInactive()) {
-			playerIndex++;
-			if (playerIndex > playerList.size() - 1) {
-				playerIndex = 0;
-			}
-		}
+	
 
 	}
 
@@ -1276,6 +1274,22 @@ public class GameState extends State {
 				playerList.get(playerIndex).incrementRollsLeft(1);
 			}
 		}
+	}
+	
+	public void skipTurn() {
+			repeatRolls = 0;
+			playerRolled = false;
+			payedRent = false;
+				playerIndex++;
+				if (playerIndex > playerList.size() - 1) {
+					playerIndex = 0;
+				}
+				if (playerList.get(playerIndex).getProperties().size() == 0)
+					playerPropertySlideshow.setImages(null);
+				else
+					playerPropertySlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+				playerList.get(playerIndex).incrementRollsLeft(1);
+			
 	}
 
 }
