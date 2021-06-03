@@ -476,6 +476,7 @@ public class GameState extends State {
 				false, new Clickable() {
 					@Override
 					public void onClick() {
+						playerList.get(playerIndex).subtractMoney(100);
 						if (botActive)
 							return;
 						if (playerList.get(playerIndex).getPosition() == -1)
