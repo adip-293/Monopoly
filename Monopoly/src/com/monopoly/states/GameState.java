@@ -608,10 +608,24 @@ public class GameState extends State {
 							playerList.get(playerIndex-1).setInactive(true);
 							GameLogs.addMessage(
 									"Player " + playerList.get(playerIndex-1).getPlayerNumber() + " went bankrupt because of their own incompetence");
+							int i = (int) (Math.random()*playerList.size());
+							
+							while(i == playerIndex-1) {
+								i = (int) (Math.random()*playerList.size());
+							}
+							GameLogs.addMessage(
+									"Player " + playerList.get(i).getPlayerNumber() + " inhereted Player " + playerList.get(playerIndex-1).getPlayerNumber() + "'s assets");
+							playerList.get(playerIndex).eliminate(playerList.get(playerIndex-1), playerList.get(i), playerList.get(playerIndex-1).getProperties());
 						}else if(playerIndex == 0 && playerList.get(playerList.size()-1).getMoney()<0){
 							playerList.get(playerList.size()-1).setInactive(true);
+							
+							int i = (int) (Math.random()*playerList.size());
+							while(i == playerIndex-1) {
+								i = (int) (Math.random()*playerList.size());
+							}
+							
 							GameLogs.addMessage(
-									"Player " + playerList.get(playerList.size()-1).getPlayerNumber() + " went bankrupt because of their own incompetence");
+									"Player " + playerList.get(i).getPlayerNumber() + " inhereted Player " + playerList.get(playerIndex-1).getPlayerNumber() + "'s assets");
 						}
 					}
 					for (int i = 0; i < playerList.size(); i++) {
