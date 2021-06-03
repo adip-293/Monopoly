@@ -88,11 +88,11 @@ public class Player {
 	}
 	
 	public void eliminate(Player out, Player in, ArrayList<PropertyCard> propertyOut) {
-		for(int i=properties.size()-1;i>=0;i--) {
-			properties.get(i).setOwner(in);
-			properties.get(i).setTrading(false);
-			out.removeProperty(properties.get(i));
-			in.addProperty(properties.get(i));
+		for(int i=propertyOut.size()-1;i>=0;i--) {
+			propertyOut.get(i).setOwner(in);
+			propertyOut.get(i).setTrading(false);
+			out.removeProperty(propertyOut.get(i));
+			in.addProperty(propertyOut.get(i));
 		}
 	}
 	
