@@ -70,7 +70,7 @@ public class Monopoly implements Runnable{
 		numPlayers=0;
 		playerIcon = new int[4];
 		playerIcon[0]=-1;
-		playerIcon[1]=-11;
+		playerIcon[1]=-1;
 		playerIcon[2]=-1;
 		playerIcon[3]=-1;
 		
