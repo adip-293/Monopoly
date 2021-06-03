@@ -4,7 +4,6 @@ import java.awt.image.BufferStrategy;
 
 import com.monopoly.gfx.Assets;
 import com.monopoly.gfx.Display;
-import com.monopoly.input.KeyManager;
 import com.monopoly.input.MouseManager;
 import com.monopoly.states.GameState;
 import com.monopoly.states.MenuState;
@@ -31,7 +30,6 @@ public class Monopoly implements Runnable{
 	private Graphics g;
 	
 	//Input Managers
-	private KeyManager keyManager;
 	private MouseManager mouseManager;
 
 	//Handler
@@ -52,13 +50,11 @@ public class Monopoly implements Runnable{
 		this.height=height;
 		this.title=title;
 		
-		keyManager = new KeyManager();
 		mouseManager = new MouseManager();
 	}
 	
 	private void init() {
 		display = new Display(title, width, height);
-		display.getFrame().addKeyListener(keyManager);
 		display.getFrame().addMouseListener(mouseManager);
 		display.getFrame().addMouseMotionListener(mouseManager);
 		display.getFrame().addMouseWheelListener(mouseManager);
@@ -92,7 +88,6 @@ public class Monopoly implements Runnable{
 	}
 	
 	private void update() {
-		keyManager.update();
 		if(State.getState() != null) 
 			State.getState().update();
 	}
@@ -206,10 +201,6 @@ public class Monopoly implements Runnable{
 
 	public int getHeight() {
 		return height;
-	}
-	
-	public KeyManager getKeyManager() {
-		return keyManager;
 	}
 	
 	public MouseManager getMouseManager() {

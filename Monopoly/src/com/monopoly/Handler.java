@@ -1,6 +1,5 @@
 package com.monopoly;
 
-import com.monopoly.input.KeyManager;
 import com.monopoly.input.MouseManager;
 
 public class Handler {
@@ -17,10 +16,6 @@ public class Handler {
 	
 	public int getHeight() {
 		return game.getHeight();
-	}
-	
-	public KeyManager getKeyManager() {
-		return game.getKeyManager();
 	}
 	
 	public MouseManager getMouseManager() {

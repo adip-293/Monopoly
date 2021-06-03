@@ -88,7 +88,10 @@ public class GameState extends State {
 		tradeInSlideshow = new Slideshow(1313, 260, 300, 160, null, 0.25, 0.4, 0, new Clickable() {
 			@Override
 			public void onClick() {
-
+				if (playerList.get(nameListSlideshow.getImageIndex()).getProperties().get(tradeInSlideshow.getImageIndex()).isTrading())
+					tradeButtonTwo.setText("Trading");
+				else
+					tradeButtonTwo.setText("Trade");
 			}
 		});
 
@@ -130,9 +133,9 @@ public class GameState extends State {
 				new Clickable() {
 					@Override
 					public void onClick() {
-						boolean trading = playerList.get(playerIndex).getProperties()
-								.get(tradeOutSlideshow.getImageIndex()).isTrading();
-						playerList.get(playerIndex).getProperties().get(tradeOutSlideshow.getImageIndex())
+						boolean trading = playerList.get(nameListSlideshow.getImageIndex()).getProperties()
+								.get(tradeInSlideshow.getImageIndex()).isTrading();
+						playerList.get(nameListSlideshow.getImageIndex()).getProperties().get(tradeInSlideshow.getImageIndex())
 								.setTrading(!trading);
 						if (!trading) {
 							tradeButtonTwo.setText("Trading");
@@ -227,6 +230,21 @@ public class GameState extends State {
 					else
 						tradeInSlideshow
 								.setImages(playerList.get(nameListSlideshow.getImageIndex()).getPropertyImages());
+					
+					if(playerList.get(nameListSlideshow.getImageIndex()).getProperties().size()==0)
+						tradeButtonTwo.setText("Trade");
+					else if (playerList.get(nameListSlideshow.getImageIndex()).getProperties().get(tradeInSlideshow.getImageIndex()).isTrading())
+						tradeButtonTwo.setText("Trading");
+					else
+						tradeButtonTwo.setText("Trade");
+					
+					if(playerList.get(playerIndex).getProperties().size()==0)
+						tradeButtonOne.setText("Trade");
+					else if (playerList.get(playerIndex).getProperties().get(tradeOutSlideshow.getImageIndex()).isTrading())
+						tradeButtonOne.setText("Trading");
+					else
+						tradeButtonOne.setText("Trade");
+					
 					gameplay.setActivity(false);
 					assets.setActivity(false);
 					trade.setActivity(true);
@@ -559,6 +577,8 @@ public class GameState extends State {
 					tradeInList.clear();
 					tradeOneConfirmed = false;
 					tradeTwoConfirmed = false;
+					confirmButtonOne.setText("Confirm");
+					confirmButtonTwo.setText("Confirm");
 					GameLogs.addMessage(
 							"Player " + playerList.get(playerIndex).getPlayerNumber() + " ended their turn");
 					if (playerList.get(playerIndex).getRollsLeft() == 0) {
@@ -574,6 +594,12 @@ public class GameState extends State {
 							tradeOutSlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
 						}
 						playerList.get(playerIndex).incrementRollsLeft(1);
+						
+						if(playerIndex != 0 && playerList.get(playerIndex-1).getMoney()<0) {
+							playerList.remove(playerIndex-1);
+						}else if(playerIndex == 0 && playerList.get(playerList.size()-1).getMoney()<0){
+							playerList.remove(playerList.size()-1);
+						}
 					}
 					for (int i = 0; i < playerList.size(); i++) {
 						playerList.get(i).clearTrades();
@@ -772,6 +798,9 @@ public class GameState extends State {
 			}
 			playerList.get(0).incrementRollsLeft(1);
 			nameListSlideshow.setImages(Arrays.copyOfRange(Assets.nameList, 0, handler.getGame().getNumPlayers()));
+			tab=3;
+			tab=4;
+			tab=1;
 			initRun = false;
 		} else {
 			if (tab == 1) {
@@ -790,6 +819,10 @@ public class GameState extends State {
 					playerList.get(playerIndex).trade(playerList.get(playerIndex),
 							playerList.get(nameListSlideshow.getImageIndex()), tradeOutList, tradeInList);
 					playerPropertySlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+					tradeOutSlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+					tradeInSlideshow.setImages(playerList.get(nameListSlideshow.getImageIndex()).getPropertyImages());
+					confirmButtonOne.setText("Confirm");
+					confirmButtonTwo.setText("Confirm");
 					GameLogs.addMessage(
 							"Player " + playerList.get(playerIndex).getPlayerNumber() + " traded with Player "
 									+ playerList.get(nameListSlideshow.getImageIndex()).getPlayerNumber());
