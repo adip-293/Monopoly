@@ -498,6 +498,14 @@ public class GameState extends State {
 
 									Assets.propertyDeck.getCard(cardIndex).getOwner().addMoney(rent);
 									playerList.get(playerIndex).subtractMoney(rent);
+									
+									if(playerList.get(playerIndex).getMoney()<0) {
+										playerList.get(playerIndex).setInactive(true);
+										GameLogs.addMessage(
+												"Player " + Assets.propertyDeck.getCard(cardIndex).getOwner() + " bankrupted Player " + playerList.get(playerIndex).getPlayerNumber());
+										playerList.get(playerIndex).eliminate(playerList.get(playerIndex), Assets.propertyDeck.getCard(cardIndex).getOwner(), playerList.get(playerIndex).getProperties());
+									}
+									
 									payedRent = true;
 								} else if (Assets.propertyDeck.getCard(cardIndex) instanceof UtilityCard) {
 									if (cardGroup == 9) {

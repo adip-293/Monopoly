@@ -87,6 +87,15 @@ public class Player {
 		}
 	}
 	
+	public void eliminate(Player out, Player in, ArrayList<PropertyCard> propertyOut) {
+		for(PropertyCard c : propertyOut) {
+			c.setOwner(in);
+			c.setTrading(false);
+			out.removeProperty(c);
+			in.addProperty(c);
+		}
+	}
+	
 	public void update() {
 		
 	}
