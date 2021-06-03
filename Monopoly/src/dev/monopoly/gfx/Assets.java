@@ -230,6 +230,7 @@ public class Assets {
 				new BoardCard(chanceCards[0], chanceCards[15], 271, 354, 15, 13),
 				new BoardCard(chanceCards[0], chanceCards[16], 271, 354, 15, 14),
 				new BoardCard(chanceCards[0], chanceCards[17], 271, 354, 15, 15) });
+		chanceDeck.shuffle();
 		
 		communityChestDeck = new BoardDeck(new BoardCard[] { new BoardCard(communityChestCards[0], communityChestCards[1], 271, 354, 15, 1),
 				new BoardCard(communityChestCards[0], communityChestCards[2], 271, 354, 15, 2),
@@ -248,6 +249,7 @@ public class Assets {
 				new BoardCard(communityChestCards[0], communityChestCards[15], 271, 354, 15, 15),
 				new BoardCard(communityChestCards[0], communityChestCards[16], 271, 354, 15, 16),
 				new BoardCard(communityChestCards[0], communityChestCards[17], 271, 354, 15, 17) });
+		communityChestDeck.shuffle();
 		
 		propertyDeck = new PropertyDeck(new PropertyCard[] {new DeedCard(titleDeeds[0], "Mediterranean Avenue", 60, 50, new int[] {2,10,30,90,160,250}, 1, 0, 0),
 				new DeedCard(titleDeeds[1], "Baltic Avenue", 60, 50, new int[] {2,10,30,90,160,250}, 1, 0, 0),

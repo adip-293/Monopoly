@@ -2,6 +2,7 @@ package dev.monopoly.game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class BoardDeck {
 
@@ -26,7 +27,13 @@ public class BoardDeck {
 	}
 	
 	public void shuffle() {
-		
+		Random rand = new Random();
+        for(int i = 0; i < deck.size(); i++){
+            int iToSwap = rand.nextInt(deck.size());
+            BoardCard temp = deck.get(iToSwap);
+            deck.set(iToSwap, deck.get(i));
+            deck.set(i, temp);
+        }
 	}
 	
 	

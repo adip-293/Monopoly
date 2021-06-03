@@ -26,7 +26,6 @@ public class GameState extends State {
 
 	private UIManager uiManager, gameplayManager, assetsManager, tradeManager, boardManager, historyManager;
 	/*
-	 * Tabs: Trade - Trade with other players 
 	 * Bug Testing
 	 */
 	private boolean firstRoll;
@@ -790,6 +789,8 @@ public class GameState extends State {
 				if(tradeOneConfirmed && tradeTwoConfirmed && tradeOutList.size()>0 && tradeInList.size()>0) {
 					playerList.get(playerIndex).trade(playerList.get(playerIndex), playerList.get(nameListSlideshow.getImageIndex()), tradeOutList, tradeInList);
 					playerPropertySlideshow.setImages(playerList.get(playerIndex).getPropertyImages());
+					GameLogs.addMessage(
+							"Player " + playerList.get(playerIndex).getPlayerNumber() + " traded with Player " + playerList.get(nameListSlideshow.getImageIndex()).getPlayerNumber());
 					tradeOutList.clear();
 					tradeInList.clear();
 					tradeOneConfirmed=false;
