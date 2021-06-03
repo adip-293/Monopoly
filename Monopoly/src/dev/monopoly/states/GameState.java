@@ -28,7 +28,6 @@ public class GameState extends State {
 	/*
 	 * Bug Testing
 	 */
-	private boolean firstRoll;
 	
 	private static Switch gameplay, assets, trade, board, history;
 	private int tab;
@@ -52,7 +51,6 @@ public class GameState extends State {
 		initRun = true;
 		tradeOneConfirmed=false;
 		tradeTwoConfirmed=false;
-		firstRoll=true;
 
 		uiManager = new UIManager(handler);
 		gameplayManager = new UIManager(handler);
@@ -269,13 +267,9 @@ public class GameState extends State {
 							diceTwo.roll();
 							playerList.get(playerIndex).decrementRollsLeft(1);
 							if (playerList.get(playerIndex).getPosition() != -1) {
-								 playerList.get(playerIndex).incrementPosition(1);
-								 if(firstRoll) {
-									 playerList.get(playerIndex).incrementPosition(2);
-									 firstRoll=false;
-								 }
-								//playerList.get(playerIndex)
-									//	.incrementPosition(diceOne.getCurrent() + diceTwo.getCurrent());
+								 //playerList.get(playerIndex).incrementPosition(1);
+								playerList.get(playerIndex)
+										.incrementPosition(diceOne.getCurrent() + diceTwo.getCurrent());
 								GameLogs.addMessage("Player " + playerList.get(playerIndex).getPlayerNumber()
 										+ " advanced " + (diceOne.getCurrent() + diceTwo.getCurrent()) + " spaces ");
 							}
