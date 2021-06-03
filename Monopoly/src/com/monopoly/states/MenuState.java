@@ -7,7 +7,6 @@ import com.monopoly.Handler;
 import com.monopoly.gfx.Assets;
 import com.monopoly.ui.Button;
 import com.monopoly.ui.Clickable;
-import com.monopoly.ui.Slideshow;
 import com.monopoly.ui.UIManager;
 
 public class MenuState extends State{
