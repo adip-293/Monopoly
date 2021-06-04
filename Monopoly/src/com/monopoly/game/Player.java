@@ -12,7 +12,7 @@ public class Player {
 	private int playerNumber;
 	private ArrayList<PropertyCard> properties; 
 	private int money;
-	private int x,y,width,height;
+	private int width,height;
 	private BufferedImage icon;
 	private int rollsLeft;
 	private int position;
@@ -31,8 +31,6 @@ public class Player {
 	
 	public Player(int x, int y, int width, int height, BufferedImage icon, int money) {
 		properties = new ArrayList<PropertyCard>();
-		this.x=x;
-		this.y=y;
 		this.width=width;
 		this.height=height;
 		this.icon=icon;

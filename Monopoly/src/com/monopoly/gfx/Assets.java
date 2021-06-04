@@ -220,7 +220,7 @@ public class Assets {
 				//new BoardCard(chanceCards[0], chanceCards[5], 271, 354, 15, 5),
 				new BoardCard(chanceCards[0], chanceCards[6], 271, 354, 15, 4),
 				new BoardCard(chanceCards[0], chanceCards[7], 271, 354, 15, 5),
-				new BoardCard(chanceCards[0], chanceCards[8], 271, 354, 15, 6),
+				//new BoardCard(chanceCards[0], chanceCards[8], 271, 354, 15, 6),
 				new BoardCard(chanceCards[0], chanceCards[9], 271, 354, 15, 7),
 				new BoardCard(chanceCards[0], chanceCards[10], 271, 354, 15, 8),
 				new BoardCard(chanceCards[0], chanceCards[11], 271, 354, 15, 9),
